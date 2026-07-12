@@ -506,3 +506,30 @@ function handleLogout() {
   switchView("login");
   showToast("You have been signed out.", "info");
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+  setupNavigation();
+  setupRoleSwitcher();
+  
+  if (state.isLoggedIn && state.currentUser) {
+    // Set simulator value
+    const switcher = document.getElementById("role-switcher");
+    if (switcher) switcher.value = state.currentUser.role;
+    
+    // Set profile widgets
+    const widgetName = document.getElementById("widget-name");
+    const widgetRole = document.getElementById("widget-role");
+    const widgetAvatar = document.getElementById("widget-avatar");
+    if (widgetName) widgetName.textContent = state.currentUser.name;
+    if (widgetRole) widgetRole.textContent = state.currentUser.role.replace(/-/g, ' ');
+    if (widgetAvatar) widgetAvatar.textContent = state.currentUser.name.charAt(0);
+    
+    filterSidebarItems();
+    switchView("dashboard");
+    
+    // Render sidebar
+    renderRightSidebar();
+  } else {
+    switchView("login");
+  }
+});
