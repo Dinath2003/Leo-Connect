@@ -151,7 +151,7 @@ aside#app-sidebar {
 
 .search-input {
   width: 100%;
-  background: #16181C;
+  background: #120E22;
   border: 1px solid transparent;
   padding: 8px 12px 8px 32px;
   border-radius: 8px;
@@ -164,7 +164,7 @@ aside#app-sidebar {
 
 .search-input:focus {
   border-color: rgba(227, 217, 252, 0.2);
-  background: #1C1E24;
+  background: #1A1530;
 }
 
 .search-icon {
@@ -252,7 +252,7 @@ aside#app-sidebar {
 .nav-item.active svg {
   background: linear-gradient(135deg, #7B45F0, #491AB1);
   color: var(--white);
-  box-shadow: 0 4px 10px rgba(0, 85, 255, 0.4);
+  box-shadow: 0 4px 10px rgba(123, 69, 240, 0.4);
 }
 
 /* Sidebar Footer Logo */
@@ -544,7 +544,7 @@ header {
 
 .sparkline-visual {
   height: 60px;
-  background: linear-gradient(180deg, rgba(105, 240, 174, 0.1), transparent);
+  background: linear-gradient(180deg, rgba(123, 69, 240, 0.1), transparent);
   position: relative;
   border-bottom: 2px solid var(--success);
   margin-top: 10px;
@@ -564,9 +564,9 @@ header {
 
 /* Banner Promotional CTA matching UI image */
 .promo-banner {
-  background: radial-gradient(circle at 100% 0%, rgba(105, 240, 174, 0.15), transparent),
-              linear-gradient(135deg, #131A1E, #0A0F11);
-  border: 1px solid rgba(105, 240, 174, 0.1);
+  background: radial-gradient(circle at 100% 0%, rgba(123, 69, 240, 0.15), transparent),
+              linear-gradient(135deg, #130D26, #0B071A);
+  border: 1px solid rgba(123, 69, 240, 0.1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -612,8 +612,8 @@ header {
 
 .promo-btn {
   flex-grow: 1;
-  background: #00D4FF; /* Matching lime active button */
-  color: var(--black);
+  background: #7B45F0;
+  color: var(--white);
   font-weight: 700;
   font-size: 0.8rem;
   padding: 10px;
@@ -767,12 +767,12 @@ header {
 
 /* Active highlighted manager contact matching UI */
 .contact-item.active {
-  background: #00D4FF;
-  color: var(--black);
+  background: #7B45F0;
+  color: var(--white);
 }
 
 .contact-item.active .contact-sub {
-  color: var(--black);
+  color: var(--white);
   opacity: 0.7;
 }
 
@@ -837,7 +837,7 @@ input:focus,
 select:focus,
 textarea:focus {
   border-color: var(--success);
-  box-shadow: 0 0 10px rgba(105, 240, 174, 0.1);
+  box-shadow: 0 0 10px rgba(123, 69, 240, 0.1);
   background: #16191D;
 }
 
@@ -846,7 +846,7 @@ textarea:focus {
 }
 
 /* Badges mappings to match theme */
-.badge-approved, .badge-active, .badge-completed, .badge-published { background: rgba(105, 240, 174, 0.12); color: var(--success); }
+.badge-approved, .badge-active, .badge-completed, .badge-published { background: rgba(123, 69, 240, 0.12); color: var(--success); }
 .badge-submitted, .badge-draft { background: rgba(227, 217, 252, 0.1); color: var(--periwinkle); }
 .badge-review, .badge-triage { background: rgba(64, 196, 255, 0.12); color: var(--info); }
 .badge-assigned, .badge-progress { background: rgba(208, 188, 252, 0.12); color: var(--hyper-magenta); }
@@ -864,16 +864,16 @@ dialog::backdrop {
 }
 
 .btn-primary {
-  background: #00D4FF;
-  color: var(--black);
-  box-shadow: none;
+  background: linear-gradient(135deg, #7B45F0, #6631DB);
+  color: var(--white);
+  box-shadow: 0 4px 20px rgba(123, 69, 240, 0.35);
   font-weight: 700;
 }
 
 .btn-primary:hover {
-  background: #00b8e6;
+  background: linear-gradient(135deg, #6631DB, #491AB1);
   transform: none;
-  box-shadow: 0 4px 15px rgba(123, 69, 240, 0.15);
+  box-shadow: 0 4px 25px rgba(123, 69, 240, 0.5);
 }
 
 .btn-secondary {
@@ -894,7 +894,7 @@ dialog::backdrop {
 
 /* Toast styling override */
 .toast {
-  background: #0F1115;
+  background: #130D26;
   border: 1px solid rgba(255,255,255,0.06);
   border-left: 4px solid var(--success);
 }
@@ -965,7 +965,7 @@ dialog::backdrop {
 }
 
 .login-card {
-  background: rgba(15, 17, 21, 0.78);
+  background: rgba(11, 7, 26, 0.82);
   backdrop-filter: blur(40px) saturate(120%) brightness(1.05);
   -webkit-backdrop-filter: blur(40px) saturate(120%) brightness(1.05);
   border: 1px solid rgba(123, 69, 240, 0.12);
@@ -1155,7 +1155,7 @@ dialog::backdrop {
 .login-form .form-input {
   width: 100%;
   height: 44px;
-  background: rgba(18, 20, 24, 0.6);
+  background: rgba(19, 13, 38, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 10px;
   padding: 10px 14px;
@@ -1167,16 +1167,16 @@ dialog::backdrop {
 
 .login-form .form-input:focus {
   border-color: var(--success);
-  box-shadow: 0 0 15px rgba(105, 240, 174, 0.15);
+  box-shadow: 0 0 15px rgba(123, 69, 240, 0.15);
   outline: none;
-  background: rgba(18, 20, 24, 0.8);
+  background: rgba(19, 13, 38, 0.8);
 }
 
 .login-role-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 6px;
-  background: rgba(18, 20, 24, 0.6);
+  background: rgba(19, 13, 38, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 12px;
   padding: 6px;
@@ -1249,7 +1249,7 @@ dialog::backdrop {
   display: flex;
   align-items: center;
   padding: 8px 16px;
-  background: #0E1225;
+  background: #130D26;
   border: 1px solid rgba(255,255,255,0.03);
   border-radius: 20px;
   font-size: 0.78rem;
@@ -1259,9 +1259,9 @@ dialog::backdrop {
 }
 
 .filter-pill.active {
-  background: rgba(0, 85, 255, 0.1);
+  background: rgba(123, 69, 240, 0.1);
   color: var(--white);
-  border-color: rgba(0, 85, 255, 0.2);
+  border-color: rgba(123, 69, 240, 0.2);
 }
 
 .dot-green {
@@ -1273,7 +1273,7 @@ dialog::backdrop {
 }
 
 .filter-settings-btn {
-  background: #0E1225;
+  background: #130D26;
   border: 1px solid rgba(255,255,255,0.03);
   color: var(--slate-blue);
   width: 34px;
@@ -1298,7 +1298,7 @@ dialog::backdrop {
   font-size: 0.8rem;
   padding: 8px 20px;
   border-radius: 20px;
-  box-shadow: 0 4px 15px rgba(0, 85, 255, 0.4);
+  box-shadow: 0 4px 15px rgba(123, 69, 240, 0.4);
   cursor: pointer;
   transition: var(--transition);
   border: none;
@@ -1306,7 +1306,7 @@ dialog::backdrop {
 
 .new-task-btn:hover {
   background: #0044DD;
-  box-shadow: 0 4px 20px rgba(0, 85, 255, 0.5);
+  box-shadow: 0 4px 20px rgba(123, 69, 240, 0.5);
 }
 
 /* Task Cards */
@@ -1321,14 +1321,14 @@ dialog::backdrop {
 }
 
 .task-card-item:hover {
-  border-color: rgba(0, 85, 255, 0.2);
+  border-color: rgba(123, 69, 240, 0.2);
   transform: translateY(-2px);
 }
 
 .task-card-item.expanded {
   background: linear-gradient(135deg, #491AB1 0%, #10062D 100%);
-  border: 1px solid rgba(0, 85, 255, 0.4);
-  box-shadow: 0 10px 30px rgba(0, 85, 255, 0.15);
+  border: 1px solid rgba(123, 69, 240, 0.4);
+  box-shadow: 0 10px 30px rgba(123, 69, 240, 0.15);
 }
 
 .task-card-header {
@@ -1410,7 +1410,7 @@ dialog::backdrop {
   border-radius: 50%;
   border: 2px solid var(--card-bg);
   margin-left: -6px;
-  background: #0066FF;
+  background: #6631DB;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1482,7 +1482,7 @@ dialog::backdrop {
 /* Right Sidebar Cards */
 .today-note-card {
   background: linear-gradient(135deg, #34117E 0%, #0E0427 100%);
-  border: 1px solid rgba(0, 85, 255, 0.2);
+  border: 1px solid rgba(123, 69, 240, 0.2);
   border-radius: 20px;
   padding: 20px;
   margin-bottom: 20px;
@@ -1582,7 +1582,7 @@ dialog::backdrop {
 
 .my-files-upload-zone:hover {
   background: rgba(255,255,255,0.03);
-  border-color: rgba(0, 85, 255, 0.3);
+  border-color: rgba(123, 69, 240, 0.3);
 }
 
 .my-files-icon-box {
@@ -1628,7 +1628,7 @@ dialog::backdrop {
 
 .add-file-btn:hover {
   background: rgba(255,255,255,0.08);
-  border-color: rgba(0, 85, 255, 0.2);
+  border-color: rgba(123, 69, 240, 0.2);
 }
 
 /* Activity Card */

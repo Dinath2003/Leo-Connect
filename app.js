@@ -329,15 +329,16 @@ function setUserRole(roleKey) {
 function filterSidebarItems() {
   const navAdmin = document.getElementById("nav-admin");
   const navAudit = document.getElementById("nav-audit");
+  if (!state.currentUser) return;
   const r = state.currentUser.role;
 
   // Rules: Only Super Admin and District Admin can see Admin panel
   if (r === "super-admin") {
-    navAdmin.style.display = "block";
-    navAudit.style.display = "block";
+    if (navAdmin) navAdmin.style.display = "block";
+    if (navAudit) navAudit.style.display = "block";
   } else {
-    navAdmin.style.display = "none";
-    navAudit.style.display = "none";
+    if (navAdmin) navAdmin.style.display = "none";
+    if (navAudit) navAudit.style.display = "none";
   }
 }
 
@@ -446,7 +447,7 @@ function renderDashboard() {
             <div class="members-avatars">
               <div class="members-avatar-circle" style="background:#7B45F0;">D</div>
               <div class="members-avatar-circle" style="background:#D0BCFC;">N</div>
-              <div class="members-avatar-circle" style="background:#0066FF;">S</div>
+              <div class="members-avatar-circle" style="background:#6631DB;">S</div>
             </div>
             <span class="members-count">+3 People</span>
           </div>
@@ -2423,15 +2424,18 @@ window.addEventListener("DOMContentLoaded", () => {
   setupRoleSwitcher();
   renderRightSidebar();
   
-  if (state.isLoggedIn) {
+  if (state.isLoggedIn && state.currentUser) {
     // Set simulator value
     const switcher = document.getElementById("role-switcher");
     if (switcher) switcher.value = state.currentUser.role;
     
     // Set profile widgets
-    document.getElementById("widget-name").textContent = state.currentUser.name;
-    document.getElementById("widget-role").textContent = state.currentUser.role.replace('-', ' ');
-    document.getElementById("widget-avatar").textContent = state.currentUser.name.charAt(0);
+    const widgetName = document.getElementById("widget-name");
+    const widgetRole = document.getElementById("widget-role");
+    const widgetAvatar = document.getElementById("widget-avatar");
+    if (widgetName) widgetName.textContent = state.currentUser.name;
+    if (widgetRole) widgetRole.textContent = state.currentUser.role.replace(/-/g, ' ');
+    if (widgetAvatar) widgetAvatar.textContent = state.currentUser.name.charAt(0);
     
     filterSidebarItems();
     switchView("dashboard");
@@ -2865,10 +2869,9 @@ function handleLoginSubmit(event) {
   event.preventDefault();
   const emailInput = document.getElementById("login-email");
   const passInput = document.getElementById("login-password");
-  const errorEl = document.getElementById("login-error");
   
-  const email = emailInput.value.trim();
-  const password = passInput.value;
+  const email = emailInput ? emailInput.value.trim() : "";
+  const password = passInput ? passInput.value : "";
 
   if (password !== "leo123" && password !== "admin123") {
     showLoginError("Incorrect password. Use 'leo123'.");
@@ -2876,9 +2879,10 @@ function handleLoginSubmit(event) {
   }
 
   let loggedUser = null;
-  const users = state.getData("users");
+  const users = state.getData("users") || [];
   const emailLower = email.toLowerCase();
   
+  // 1. Match known shortcut emails
   if (emailLower === "admin@leo.org" || emailLower === "dinesh.admin@leodistrict.org") {
     loggedUser = users.find(u => u.role === "super-admin") || users[0];
   } else if (emailLower === "president@leo.org" || emailLower === "dilan.pres@leocolombocentennial.org") {
@@ -2892,12 +2896,25 @@ function handleLoginSubmit(event) {
   } else if (emailLower === "guest@leo.org") {
     loggedUser = { name: "Guest Leo / Public", role: "individual-leo", club: "None" };
   } else {
-    // Search general seeded users by exact email
-    loggedUser = users.find(u => u.email.toLowerCase() === emailLower);
+    // 2. Try exact email match
+    loggedUser = users.find(u => u.email && u.email.toLowerCase() === emailLower);
   }
 
+  // 3. Fallback: if nothing matched, use the active role button
   if (!loggedUser) {
-    showLoginError("User account not found. Try one of the simulation buttons.");
+    const activeRoleBtn = document.querySelector(".role-grid-btn.active");
+    const roleKey = activeRoleBtn ? activeRoleBtn.getAttribute("data-role") : "super-admin";
+    
+    if (roleKey === "individual-leo") {
+      loggedUser = { name: "Guest Leo / Public", role: "individual-leo", club: "None" };
+    } else {
+      loggedUser = users.find(u => u.role === roleKey) || users[0];
+    }
+  }
+
+  // Safety: if there's still no user, show error
+  if (!loggedUser) {
+    showLoginError("Unable to log in. Please reload the page.");
     return;
   }
 
@@ -2907,10 +2924,13 @@ function handleLoginSubmit(event) {
   const switcher = document.getElementById("role-switcher");
   if (switcher) switcher.value = loggedUser.role;
   
-  // Update sidebar profile details
-  document.getElementById("widget-name").textContent = loggedUser.name;
-  document.getElementById("widget-role").textContent = loggedUser.role.replace('-', ' ');
-  document.getElementById("widget-avatar").textContent = loggedUser.name.charAt(0);
+  // Update sidebar profile details with null guards
+  const widgetName = document.getElementById("widget-name");
+  const widgetRole = document.getElementById("widget-role");
+  const widgetAvatar = document.getElementById("widget-avatar");
+  if (widgetName) widgetName.textContent = loggedUser.name;
+  if (widgetRole) widgetRole.textContent = loggedUser.role.replace(/-/g, ' ');
+  if (widgetAvatar) widgetAvatar.textContent = loggedUser.name.charAt(0);
   
   filterSidebarItems();
   showToast(`Welcome back, ${loggedUser.name}!`, "success");
