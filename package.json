@@ -1,0 +1,11 @@
+{
+  "name": "leo-district-portal",
+  "version": "1.0.0",
+  "description": "Leo District Digital Services and Governance Portal",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx -y http-server -p 3005"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

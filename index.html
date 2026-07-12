@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leo District Digital Services and Governance Portal</title>
+  <meta name="description" content="Centralized digital services, branding standards distribution, verification cases, and governance management for Leo District Council and Leo Clubs.">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  
+  <!-- ================== 0. LOGIN PAGE VIEW (FULLSCREEN OVERLAY) ================== -->
+  <section id="view-login" class="view-section active">
+    <div class="login-layout">
+      <div class="login-bg">
+        <canvas id="login-particle-canvas"></canvas>
+      </div>
+      <div class="login-content" id="login-content-3d">
+        <div class="login-card" id="login-card-3d">
+          <div class="login-card-shimmer" aria-hidden="true"></div>
+          <div class="login-card-orb login-card-orb-1" aria-hidden="true"></div>
+          <div class="login-card-orb login-card-orb-2" aria-hidden="true"></div>
+
+          <div class="login-branding">
+            <div class="login-logo">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" style="width:28px; height:28px; color:var(--black);">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+              </svg>
+            </div>
+            <div class="login-subtitle">District 306 D7</div>
+            <h1>LEO CONNECT</h1>
+            <p class="login-desc">Branding, Websites & Governance Portal</p>
+          </div>
+
+          <form class="login-form" id="login-form">
+            <div class="login-role-grid">
+              <button type="button" class="role-grid-btn active" data-role="super-admin" data-email="admin@leo.org" id="login-role-admin">
+                👑 Admin
+              </button>
+              <button type="button" class="role-grid-btn" data-role="club-president" data-email="president@leo.org" id="login-role-president">
+                🦁 President
+              </button>
+              <button type="button" class="role-grid-btn" data-role="district-pr" data-email="pr@leo.org" id="login-role-pr">
+                🎨 PR Team
+              </button>
+              <button type="button" class="role-grid-btn" data-role="district-tech" data-email="tech@leo.org" id="login-role-tech">
+                💻 Tech Team
+              </button>
+              <button type="button" class="role-grid-btn" data-role="district-verification" data-email="verif@leo.org" id="login-role-verif">
+                🛡️ Verif
+              </button>
+              <button type="button" class="role-grid-btn" data-role="individual-leo" data-email="guest@leo.org" id="login-role-guest">
+                👤 Guest
+              </button>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="login-email">Email Address</label>
+              <input type="email" class="form-input" id="login-email" placeholder="Enter your email" required value="admin@leo.org" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="login-password">Password</label>
+              <input type="password" class="form-input" id="login-password" placeholder="Enter your password" required value="leo123" />
+            </div>
+
+            <div class="login-error" id="login-error"></div>
+
+            <button type="submit" class="btn-primary" style="width:100%; margin-top:10px; border-radius:12px; height:46px; font-weight:700;">
+              Sign In
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="app-container">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside id="app-sidebar">
+      <div class="user-widget-top">
+        <div class="user-avatar-top" id="widget-avatar">S</div>
+        <div class="user-details-top">
+          <div class="user-name-top" id="widget-name">Super Admin</div>
+          <div style="font-size:0.7rem; color:var(--periwinkle); opacity:0.5;" id="widget-role">Super Admin</div>
+        </div>
+      </div>
+
+      <!-- Search bar -->
+      <div class="search-container">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="search-icon">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.637 10.637Z" />
+        </svg>
+        <input type="text" class="search-input" placeholder="Search..." readonly>
+        <span class="search-shortcut">⌘K</span>
+      </div>
+      
+      <div class="nav-group-header">Dashboards</div>
+      <nav class="nav-menu">
+        <li class="nav-item active" data-view="dashboard">
+          <button type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+            </svg>
+            <span>Overview</span>
+          </button>
+        </li>
+        <li class="nav-item" data-view="admin" id="nav-admin">
+          <button type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.97 5.97 0 0 0-.75-2.985m-.001-10.44a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm-9.75 0a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm1.5 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm0 0a6 6 0 0 1 5.787-5.986 5.974 5.974 0 0 1 5.076 3.012m-10.863-1.042c-.083-.294-.124-.602-.124-.92 0-2.038 1.352-3.747 3.223-4.293M10.5 8.125A3.187 3.187 0 1 1 7.313 11.3M12 15.75c-1.305 0-2.52.42-3.51 1.137" />
+            </svg>
+            <span>Clubs & Users</span>
+          </button>
+        </li>
+        <li class="nav-item" data-view="websites">
+          <button type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-.778.099-1.533.284-2.253" />
+            </svg>
+            <span>Website Services</span>
+          </button>
+        </li>
+        <li class="nav-item" data-view="maintenance">
+          <button type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.67 2.67 0 0 0 21 17.25l-5.83-5.83m-3.75 3.75-3.75-3.75m3.75 3.75 5.83-5.83A2.67 2.67 0 0 0 17.25 3 2.67 2.67 0 0 0 13.5 6.75l-5.83 5.83M6.75 13.5 3 17.25A2.67 2.67 0 0 0 6.75 21l3.75-3.75m-3.75-3.75 3.75-3.75" />
+            </svg>
+            <span>Maintenance Center</span>
+          </button>
+        </li>
+      </nav>
+
+      <div class="nav-group-header">Settings</div>
+      <nav class="nav-menu">
+        <li class="nav-item" data-view="governance">
+          <button type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+            </svg>
+            <span>PR Standards & CoC</span>
+          </button>
+        </li>
+        <li class="nav-item" data-view="verification">
+          <button type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z" />
+            </svg>
+            <span>Mediation Cases</span>
+          </button>
+        </li>
+        <li class="nav-item" data-view="appointments">
+          <button type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+            </svg>
+            <span>Appointments</span>
+          </button>
+        </li>
+        <li class="nav-item" data-view="inquiries">
+          <button type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-3.658A8.953 8.953 0 0 1 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+            </svg>
+            <span>Inquiries Box</span>
+          </button>
+        </li>
+        <li class="nav-item" data-view="audit" id="nav-audit">
+          <button type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+            </svg>
+            <span>Audit Logs</span>
+          </button>
+        </li>
+      </nav>
+
+      <!-- logout nav menu -->
+      <nav class="nav-menu" style="margin-top:auto; margin-bottom:12px;">
+        <li class="nav-item">
+          <button type="button" onclick="handleLogout()" style="color:var(--danger); opacity:0.85;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+            </svg>
+            <span>Sign Out</span>
+          </button>
+        </li>
+      </nav>
+      
+      <div class="sidebar-logo-bottom">
+        <div class="logo-dot"></div>
+        <span>DWISON LEO</span>
+      </div>
+    </aside>
+    
+    <!-- MIDDLE WORKSPACE CONTENT AREA -->
+    <main>
+      <header>
+        <div class="page-title" style="font-size:0.8rem; font-weight:500; color:var(--slate-blue); display:flex; gap:6px;">
+          <span>Home</span>
+          <span>/</span>
+          <span>Dashboard</span>
+          <span>/</span>
+          <span style="color:var(--white); cursor:pointer;">20 Sep ▾</span>
+        </div>
+        
+        <div class="header-actions">
+          <div style="display:flex; align-items:center; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); padding:4px 8px; border-radius:16px; gap:8px;">
+            <div class="members-avatars">
+              <div class="members-avatar-circle" style="background:#7B45F0;">S</div>
+              <div class="members-avatar-circle" style="background:#3B82F6;">D</div>
+              <div class="members-avatar-circle" style="background:#D0BCFC;">P</div>
+            </div>
+            <button class="btn btn-secondary btn-sm" style="border:none; background:#7B45F0; color:var(--white); border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; padding:0; font-size:0.8rem; font-weight:700;" onclick="showToast('Add team member trigger', 'info')">+</button>
+            <span style="font-size:0.75rem; color:var(--slate-blue); margin-left:4px;">Add member</span>
+          </div>
+
+          <button type="button" class="header-icon-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:18px; height:18px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.637 10.637Z" />
+            </svg>
+          </button>
+
+          <button type="button" class="header-icon-btn" onclick="showToast('No new alerts.', 'info')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:18px; height:18px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+            </svg>
+          </button>
+          
+          <!-- Role Switcher HUD -->
+          <div class="role-hud">
+            <span class="role-hud-label">Simulate:</span>
+            <select id="role-switcher" class="role-select">
+              <option value="super-admin">Super Administrator</option>
+              <option value="club-president">Club President (Colombo Centennial)</option>
+              <option value="district-pr">District PR Team</option>
+              <option value="district-tech">District Technical Team</option>
+              <option value="district-verification">District Verification Team</option>
+              <option value="individual-leo">Guest Leo / Public</option>
+            </select>
+          </div>
+        </div>
+      </header>
+      
+      <div class="workspace">
+        
+        <!-- ================== 1. DASHBOARD VIEW ================== -->
+        <section id="view-dashboard" class="view-section active">
+          <div style="margin-bottom:24px;">
+            <h1 style="font-family:var(--font-display); font-size:2rem; font-weight:700; color:var(--white); margin-bottom:6px;">Make Things Simple !</h1>
+            <p style="font-size:0.85rem; color:var(--slate-blue); font-weight:400; line-height:1.4;">Management and planning in a simple and attractive style will bring you success</p>
+          </div>
+          
+          <div class="filters-row-screenshot">
+            <div style="display:flex; gap:10px; align-items:center;">
+              <div class="filter-pill active" id="task-filter-all" onclick="filterDashboardTasks('all')">
+                <span class="dot-green"></span>
+                <span>All Requests</span>
+              </div>
+              <div class="filter-pill" id="task-filter-progress" onclick="filterDashboardTasks('Progress')">
+                <span>In Progress</span>
+              </div>
+              <div class="filter-pill" id="task-filter-published" onclick="filterDashboardTasks('Published')">
+                <span>Published</span>
+              </div>
+              <button type="button" class="filter-settings-btn" onclick="showToast('Filters configuration', 'info')">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:14px; height:14px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+                </svg>
+              </button>
+            </div>
+            
+            <button type="button" class="new-task-btn" onclick="document.getElementById('website-request-dialog').showModal()">New task</button>
+          </div>
+          
+          <div id="dashboard-tasks-container">
+            <!-- Dynamic task card rows rendered via app.js -->
+          </div>
+        </section>
+        
+        <!-- ================== 2. CLUBS & USERS VIEW ================== -->
+        <section id="view-admin" class="view-section">
+          <div class="section-header">
+            <div>
+              <h1 class="section-title">Club & User Governance</h1>
+              <p class="section-subtitle">Manage district organization workspace and access controls.</p>
+            </div>
+            <div>
+              <button class="btn btn-primary" onclick="document.getElementById('new-user-dialog').showModal()">
+                <span>Create User Account</span>
+              </button>
+            </div>
+          </div>
+          
+          <div class="tabs-header">
+            <button class="tab-btn active" onclick="switchSubTab(event, 'tab-users')">Users List</button>
+            <button class="tab-btn" onclick="switchSubTab(event, 'tab-clubs')">Leo Clubs Directory</button>
+            <button class="tab-btn" onclick="switchSubTab(event, 'tab-clubs-transition')">Leoistic Year Transition</button>
+          </div>
+          
+          <!-- Users List Tab -->
+          <div id="tab-users" class="tab-content active">
+            <div class="card">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Leo Club</th>
+                      <th>Official Role</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-users-table">
+                    <!-- Rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Clubs Tab -->
+          <div id="tab-clubs" class="tab-content">
+            <div class="card">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Club Name</th>
+                      <th>Club Number</th>
+                      <th>Sponsoring Lions Club</th>
+                      <th>Type</th>
+                      <th>President</th>
+                      <th>Branding Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-clubs-table">
+                    <!-- Rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Transition Tab -->
+          <div id="tab-clubs-transition" class="tab-content">
+            <div class="card">
+              <h2 class="card-title">Annual Leoistic Year Transition</h2>
+              <div style="max-width:700px; line-height:1.6; margin-bottom:20px;">
+                <p>This utility automates district handovers. Performing transition will:</p>
+                <ul style="margin-left: 20px; margin-top: 10px; list-style-type: square; font-size:0.85rem; opacity:0.8;">
+                  <li>Rollover leadership to the next Leoistic Year.</li>
+                  <li>Disable outgoing club presidents and district officer credentials.</li>
+                  <li>Archive website requests, notices, and cases as historical read-only logs.</li>
+                  <li>Reset guideline acknowledgements.</li>
+                </ul>
+              </div>
+              
+              <form id="transition-form" onsubmit="handleTransitionYear(event)">
+                <div class="form-group row">
+                  <div>
+                    <label for="new-year-input">Target Leoistic Year</label>
+                    <input type="text" id="new-year-input" placeholder="e.g. 2026/2027" required autocomplete="off">
+                  </div>
+                  <div>
+                    <label for="transition-confirm">Type 'CONFIRM' to authenticate</label>
+                    <input type="text" id="transition-confirm" placeholder="CONFIRM" required autocomplete="off">
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-danger">Execute Leadership Rollover</button>
+              </form>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ================== 3. WEBSITE SERVICES VIEW ================== -->
+        <section id="view-websites" class="view-section">
+          <div class="section-header">
+            <div>
+              <h1 class="section-title">Website Service Desk</h1>
+              <p class="section-subtitle">Request official websites, track technical development, staging review, and handover.</p>
+            </div>
+            <div id="website-request-btns">
+              <!-- Rendered via JS if Club President -->
+            </div>
+          </div>
+          
+          <div class="tabs-header">
+            <button class="tab-btn active" onclick="switchSubTab(event, 'tab-web-requests')">Active Service Requests</button>
+            <button class="tab-btn" onclick="switchSubTab(event, 'tab-active-sites')">Published Club Websites</button>
+          </div>
+          
+          <!-- Requests Tab -->
+          <div id="tab-web-requests" class="tab-content active">
+            <div class="card">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Ref ID</th>
+                      <th>Club / Project</th>
+                      <th>Type</th>
+                      <th>Preferred Domain</th>
+                      <th>Target Date</th>
+                      <th>Status</th>
+                      <th>Assigned Dev</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="website-requests-table">
+                    <!-- Rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Active Sites Tab -->
+          <div id="tab-active-sites" class="tab-content">
+            <div class="card">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Club Name</th>
+                      <th>Domain Name</th>
+                      <th>Registrar</th>
+                      <th>SSL Status</th>
+                      <th>Hosting Provider</th>
+                      <th>Expiry Date</th>
+                      <th>Responsibility</th>
+                    </tr>
+                  </thead>
+                  <tbody id="active-sites-table">
+                    <!-- Rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ================== 4. MAINTENANCE & TRAINING ================== -->
+        <section id="view-maintenance" class="view-section">
+          <div class="section-header">
+            <div>
+              <h1 class="section-title">Technical Support & Training</h1>
+              <p class="section-subtitle">Technical training modules, maintenance quiz, and service support tickets.</p>
+            </div>
+            <div id="maintenance-request-btns">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+          
+          <div class="tabs-header">
+            <button class="tab-btn active" onclick="switchSubTab(event, 'tab-training-materials')">Technical Training</button>
+            <button class="tab-btn" onclick="switchSubTab(event, 'tab-maint-tickets')">Support & Maintenance Tickets</button>
+          </div>
+          
+          <!-- Training tab -->
+          <div id="tab-training-materials" class="tab-content active" style="display: grid; grid-template-columns: 1.4fr 1.1fr; gap: 16px;">
+            <div class="card">
+              <h2 class="card-title">Training Videos & Manuals</h2>
+              
+              <details class="accordion" open>
+                <summary>1. Website Dashboard Orientation (Video Tutorial)</summary>
+                <div class="details-content">
+                  <div style="background:#16181C; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; border-radius:8px; margin-bottom:12px; border: 1px solid var(--glass-border);">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:48px; height:48px; color:var(--success);">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
+                    </svg>
+                    <span style="margin-left: 10px; font-weight:600; font-size:0.9rem;">Orientation Tutorial Playback [MOCK]</span>
+                  </div>
+                  <p style="font-size:0.8rem; line-height:1.5; opacity:0.8;">This video details dashboard panel widgets, editing configurations, custom layout modules, and page customization policies.</p>
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="markTrainingDone('video-orient')" style="margin-top:12px;">Mark Video Viewed</button>
+                </div>
+              </details>
+              
+              <details class="accordion">
+                <summary>2. Editing Officers Profiles & Projects updates</summary>
+                <div class="details-content">
+                  <p style="font-size:0.8rem; line-height:1.5; margin-bottom:12px; opacity:0.8;">To maintain website reliability, always update your project grids within 3 days of project completion. Use approved branding graphics only.</p>
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="markTrainingDone('pdf-edit')">Mark Manual Downloaded</button>
+                </div>
+              </details>
+            </div>
+            
+            <div class="card">
+              <h2 class="card-title">Training Completion Checklist</h2>
+              <div class="panel-list" id="training-checklist-container">
+                <!-- Rendered dynamically -->
+              </div>
+              
+              <div class="quiz-container" id="quiz-block">
+                <div class="quiz-question" id="quiz-q-text">Which logo is permitted on secondary event flyers?</div>
+                <div class="quiz-options" id="quiz-options-list">
+                  <!-- Rendered dynamically -->
+                </div>
+                <button type="button" class="btn btn-primary btn-sm" onclick="submitQuiz()" style="margin-top:14px; width:100%;">Submit Answer</button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Maintenance Tickets tab -->
+          <div id="tab-maint-tickets" class="tab-content">
+            <div class="card">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Ref ID</th>
+                      <th>Leo Club</th>
+                      <th>Category</th>
+                      <th>Priority</th>
+                      <th>Subject</th>
+                      <th>Date Submitted</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="maintenance-tickets-table">
+                    <!-- Rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ================== 5. PR & BRANDING GOVERNANCE ================== -->
+        <section id="view-governance" class="view-section">
+          <div class="section-header">
+            <div>
+              <h1 class="section-title">PR & Branding Governance</h1>
+              <p class="section-subtitle">Ensure brand standards, publish directories, verify flyers, and respond to emergency directives.</p>
+            </div>
+            <div id="governance-actions-btns">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+          
+          <div class="tabs-header">
+            <button class="tab-btn active" onclick="switchSubTab(event, 'tab-pr-library')">Resource Library & Guidelines</button>
+            <button class="tab-btn" onclick="switchSubTab(event, 'tab-pr-review')">PR Material Pre-Reviews</button>
+            <button class="tab-btn" onclick="switchSubTab(event, 'tab-pr-compliance')">Compliance Cases</button>
+            <button class="tab-btn" onclick="switchSubTab(event, 'tab-pr-directives')">Emergency Notices</button>
+          </div>
+          
+          <!-- Resource Library Tab -->
+          <div id="tab-pr-library" class="tab-content active">
+            <div class="card" style="margin-bottom:24px;">
+              <h2 class="card-title">Mandatory Code of Conduct Acknowledgment</h2>
+              <div id="coc-box-status" style="margin-bottom:14px;">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+            
+            <div class="card">
+              <h2 class="card-title">Branding Library Assets</h2>
+              <div class="resource-grid" id="pr-resources-list">
+                <!-- Rendered via JS -->
+              </div>
+            </div>
+          </div>
+          
+          <!-- Material Reviews Tab -->
+          <div id="tab-pr-review" class="tab-content">
+            <div class="card">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Ref ID</th>
+                      <th>Leo Club</th>
+                      <th>Material Type</th>
+                      <th>Subject</th>
+                      <th>Submission Date</th>
+                      <th>Status</th>
+                      <th>Assigned PR Officer</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pr-reviews-table">
+                    <!-- Rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Compliance Cases Tab -->
+          <div id="tab-pr-compliance" class="tab-content">
+            <div class="card">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Ref ID</th>
+                      <th>Leo Club</th>
+                      <th>Issue Category</th>
+                      <th>Severity</th>
+                      <th>Deadline</th>
+                      <th>Assigned Officer</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pr-compliance-table">
+                    <!-- Rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Emergency Directives Tab -->
+          <div id="tab-pr-directives" class="tab-content">
+            <div class="card">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Ref ID</th>
+                      <th>Leo Club</th>
+                      <th>Headline</th>
+                      <th>Severity</th>
+                      <th>Dispatched Date</th>
+                      <th>Acknowledge Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pr-directives-table">
+                    <!-- Rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ================== 6. VERIFICATION CASES VIEW ================== -->
+        <section id="view-verification" class="view-section">
+          <div class="section-header">
+            <div>
+              <h1 class="section-title">District Verification cases</h1>
+              <p class="section-subtitle">Manage formal clarifications on club status, projects, officer conflicts, and policy disputes.</p>
+            </div>
+            <div id="verification-action-btns">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Ref ID</th>
+                    <th>Leo Club</th>
+                    <th>Classification</th>
+                    <th>Subject</th>
+                    <th>Officer Assigned</th>
+                    <th>Meeting Date</th>
+                    <th>Case Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="verification-cases-table">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ================== 7. APPOINTMENTS VIEW ================== -->
+        <section id="view-appointments" class="view-section">
+          <div class="section-header">
+            <div>
+              <h1 class="section-title">District Appointment Scheduler</h1>
+              <p class="section-subtitle">Request official consultations and meetings with District Council members.</p>
+            </div>
+            <div id="appointments-action-btns">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+          
+          <div class="tabs-header">
+            <button class="tab-btn active" onclick="switchSubTab(event, 'tab-active-bookings')">Appointments List</button>
+            <button class="tab-btn" onclick="switchSubTab(event, 'tab-schedule-calendar')">Scheduler Availability</button>
+          </div>
+          
+          <!-- Active list -->
+          <div id="tab-active-bookings" class="tab-content active">
+            <div class="card">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Ref ID</th>
+                      <th>Club</th>
+                      <th>District Officer</th>
+                      <th>Meeting Type</th>
+                      <th>Scheduled Date & Time</th>
+                      <th>Format</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="appointments-list-table">
+                    <!-- Rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Calendar Availability -->
+          <div id="tab-schedule-calendar" class="tab-content">
+            <div class="card scheduler-grid">
+              <div>
+                <h2 class="card-title">Select Consultation Date</h2>
+                <div class="calendar-header">
+                  <span class="calendar-title" id="calendar-month-text">July 2026</span>
+                </div>
+                <div class="calendar-days" id="calendar-days-container">
+                  <!-- Rendered via JS -->
+                </div>
+              </div>
+              
+              <div>
+                <h2 class="card-title">Available Meeting Slots</h2>
+                <p style="font-size:0.75rem; color:var(--periwinkle); opacity:0.6; margin-bottom:12px;">Select date to display consultation slots. Click Book to secure.</p>
+                <div class="slots-container" id="calendar-slots-container">
+                  <!-- Rendered via JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ================== 8. INQUIRIES VIEW ================== -->
+        <section id="view-inquiries" class="view-section">
+          <div class="section-header">
+            <div>
+              <h1 class="section-title">Inquiries & Communications Desk</h1>
+              <p class="section-subtitle">Submit identified/anonymous inquiries, track files, and communicate with officers.</p>
+            </div>
+          </div>
+          
+          <div class="tabs-header" id="inquiries-tabs-header">
+            <button class="tab-btn active" id="tab-btn-inbox" onclick="switchSubTab(event, 'tab-inbox-list')">District Inbox</button>
+            <button class="tab-btn" id="tab-btn-submit-inquiry" onclick="switchSubTab(event, 'tab-submit-inquiry')">Submit Identified Inquiry</button>
+            <button class="tab-btn" id="tab-btn-anon-box" onclick="switchSubTab(event, 'tab-anon-box')">Anonymous reporting</button>
+          </div>
+          
+          <!-- Inbox List Tab -->
+          <div id="tab-inbox-list" class="tab-content active">
+            <div class="card">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Ref ID</th>
+                      <th>Sender</th>
+                      <th>Category</th>
+                      <th>Subject</th>
+                      <th>Date Raised</th>
+                      <th>Visibility</th>
+                      <th>Assigned Team</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="inquiries-inbox-table">
+                    <!-- Rendered via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Identified Submit Tab -->
+          <div id="tab-submit-inquiry" class="tab-content">
+            <div class="card">
+              <h2 class="card-title">Submit New Inquiry to Council</h2>
+              <form id="identified-inquiry-form" onsubmit="submitInquiryForm(event, false)">
+                <div class="form-group row">
+                  <div>
+                    <label for="inq-id-category">Inquiry Category</label>
+                    <select id="inq-id-category" required>
+                      <option value="General inquiry">General inquiry</option>
+                      <option value="Club administration">Club administration</option>
+                      <option value="Membership">Membership</option>
+                      <option value="Finance">Finance</option>
+                      <option value="PR and branding">PR and branding</option>
+                      <option value="Website support">Website support</option>
+                      <option value="Confidential concern">Confidential concern</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="inq-id-subject">Subject</label>
+                    <input type="text" id="inq-id-subject" placeholder="Summary of your inquiry" required autocomplete="off">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inq-id-message">Detailed Explanation</label>
+                  <textarea id="inq-id-message" placeholder="Provide background information, facts, and queries..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Official Inquiry</button>
+              </form>
+            </div>
+          </div>
+          
+          <!-- Anonymous Submission and Tracking Tab -->
+          <div id="tab-anon-box" class="tab-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="card">
+              <h2 class="card-title">Submit Confidential / Anonymous Concern</h2>
+              <form id="anonymous-inquiry-form" onsubmit="submitInquiryForm(event, true)">
+                <div class="form-group">
+                  <label for="inq-anon-category">Inquiry Category</label>
+                  <select id="inq-anon-category" required>
+                    <option value="Complaint">Complaint / Violation</option>
+                    <option value="Code of Conduct">Code of Conduct issue</option>
+                    <option value="Officer concern">Officer misconduct</option>
+                    <option value="Confidential concern">Highly confidential matter</option>
+                    <option value="Suggestion">Anonymous suggestion</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="inq-anon-subject">Subject Summary</label>
+                  <input type="text" id="inq-anon-subject" placeholder="Subject" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                  <label for="inq-anon-message">Detailed Description</label>
+                  <textarea id="inq-anon-message" placeholder="Type here. Avoid identifying yourself if you wish to remain fully anonymous..." required></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="inq-anon-club">Relevant Club / Project</label>
+                  <input type="text" id="inq-anon-club" placeholder="e.g. Leo Club of Kandy" autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-danger">Submit Anonymously</button>
+              </form>
+            </div>
+            
+            <div class="card">
+              <h2 class="card-title">Track Anonymous Inquiry</h2>
+              <p style="font-size:0.75rem; color:var(--periwinkle); opacity:0.6; margin-bottom:16px;">
+                Input your generated tracking reference number and secure access code below to read communication logs.
+              </p>
+              <form id="anon-tracker-form" onsubmit="trackAnonymousInquiry(event)">
+                <div class="form-group">
+                  <label for="track-ref-id">Reference ID</label>
+                  <input type="text" id="track-ref-id" placeholder="e.g. INQ-7002" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                  <label for="track-access-code">Secure Access Code</label>
+                  <input type="password" id="track-access-code" placeholder="Enter Access Code" required autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-secondary" style="width:100%;">Verify and Retrieve Logs</button>
+              </form>
+              
+              <div id="anon-tracking-result" style="margin-top:20px; display:none;">
+                <!-- Tracking details and chat responses -->
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ================== 9. AUDIT LOGS VIEW ================== -->
+        <section id="view-audit" class="view-section">
+          <div class="section-header">
+            <div>
+              <h1 class="section-title">District Transaction Audit Trail</h1>
+              <p class="section-subtitle">Accountability logs recording administrative and system-wide modifications.</p>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; margin-bottom:16px;">
+              <div style="display:flex; gap:10px;">
+                <input type="text" id="audit-search" placeholder="Filter by User, Action or Affected entity..." oninput="filterAuditLogs(this.value)" style="width: 300px;">
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="exportAuditLogs()">Export Logs (CSV)</button>
+            </div>
+            
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                    <th>Record Affected</th>
+                    <th>IP / Details</th>
+                  </tr>
+                </thead>
+                <tbody id="audit-logs-table">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        
+      </div>
+    </main>
+
+    <!-- RIGHT SIDEBAR (mock notes, file uploads, progress tracker) -->
+    <aside id="right-sidebar">
+      
+      <!-- 1. Today Note Card -->
+      <div class="today-note-card">
+        <div class="today-note-header">
+          <span class="today-note-title">Today note</span>
+          <button type="button" class="today-note-edit-btn" onclick="switchView('governance')">✏️</button>
+        </div>
+        <div class="today-note-content" id="sidebar-coc-note">
+          Sign the Code of Conduct and guidelines before requesting club web hosting. Compliance score is pending. 🏀
+        </div>
+        <div class="today-note-footer">
+          <span class="today-note-time" id="sidebar-coc-time">Just now</span>
+          <button type="button" class="today-note-btn" id="sidebar-coc-action-btn" onclick="switchView('governance')">I'm going</button>
+        </div>
+      </div>
+
+      <!-- 2. My Files Card -->
+      <div class="my-files-card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-weight:700; font-size:0.9rem;">My files</span>
+          <span style="font-size:0.8rem; color:var(--slate-blue); cursor:pointer;">•••</span>
+        </div>
+        
+        <div class="my-files-upload-zone" onclick="switchView('governance')">
+          <div class="my-files-icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:20px; height:20px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z" />
+            </svg>
+          </div>
+          <span class="my-files-desc" style="font-weight:600; color:var(--white);">Upload Branding Materials</span>
+          <span class="my-files-desc" style="font-size:0.7rem; margin-top:2px;">Pre-review flyers and letters</span>
+        </div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+          <div class="my-files-formats">
+            <span>More than 20 formats:</span>
+          </div>
+          <button type="button" class="add-file-btn" onclick="switchView('governance')">Add file</button>
+        </div>
+      </div>
+
+      <!-- 3. Activity Tracker Card -->
+      <div class="activity-chart-card">
+        <div class="activity-header-row">
+          <span style="font-weight:700; font-size:0.9rem;">Activity</span>
+          <button type="button" class="get-report-btn" onclick="switchView('audit')">Get report ↗</button>
+        </div>
+        <div class="activity-stat-label">
+          <span class="activity-stat-dot"></span>
+          <span id="sidebar-activity-stat-text">0 Tasks Completed</span>
+        </div>
+        
+        <!-- SVG Line Graph visual -->
+        <div class="activity-svg-container">
+          <svg viewBox="0 0 100 45" style="width:100%; height:80px; overflow:visible;">
+            <!-- Grid lines -->
+            <line x1="0" y1="5" x2="100" y2="5" class="activity-svg-grid-line" />
+            <line x1="0" y1="20" x2="100" y2="20" class="activity-svg-grid-line" />
+            <line x1="0" y1="35" x2="100" y2="35" class="activity-svg-grid-line" />
+            
+            <!-- Graph Area Path -->
+            <path d="M 0 35 Q 20 30 40 38 T 60 12 T 80 25 T 100 28" fill="none" stroke="url(#blue-grad)" stroke-width="2.5" stroke-linecap="round" />
+            
+            <!-- Glow point at peak -->
+            <circle cx="60" cy="12" r="3.5" fill="#D0BCFC" />
+            <circle cx="60" cy="12" r="6" fill="rgba(0,212,255,0.25)" />
+            
+            <defs>
+              <linearGradient id="blue-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#0066FF" />
+                <stop offset="100%" stop-color="#D0BCFC" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="activity-svg-labels">
+            <span>Jan</span>
+            <span>Feb</span>
+            <span>Mar</span>
+            <span>Apr (80%)</span>
+            <span>May</span>
+            <span>Jun</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Collapsible Contacts Directory below widget cards -->
+      <div class="right-sidebar-title" style="margin-top: 24px; border-top:1px solid rgba(255,255,255,0.05); padding-top:16px;">
+        <span>Contacts of Managers</span>
+      </div>
+      <div class="sidebar-scroll-box" id="sidebar-contacts-list" style="max-height: 200px; overflow-y:auto;">
+        <!-- Rendered dynamically -->
+      </div>
+    </aside>
+
+  </div>
+  
+  <!-- ======================================================= -->
+  <!-- ==================== DIALOG BOXES ==================== -->
+  <!-- ======================================================= -->
+  
+  <!-- 1. CREATE USER DIALOG (Super Admin) -->
+  <dialog id="new-user-dialog">
+    <div class="dialog-header">
+      <span class="dialog-title">Create User Account</span>
+      <button class="dialog-close" onclick="this.closest('dialog').close()">&times;</button>
+    </div>
+    <form id="create-user-form" onsubmit="submitNewUser(event)">
+      <div class="form-group">
+        <label for="usr-name">Full Name</label>
+        <input type="text" id="usr-name" required autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label for="usr-email">Email Address</label>
+        <input type="email" id="usr-email" required autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label for="usr-club">Assigned Leo Club</label>
+        <select id="usr-club" required>
+          <!-- Seeding options via JS -->
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="usr-role">Official Role</label>
+        <select id="usr-role" required>
+          <option value="club-president">Club President</option>
+          <option value="district-pr">District PR Team</option>
+          <option value="district-tech">District Technical Team</option>
+          <option value="district-verification">District Verification Team</option>
+          <option value="district-officer">District Council Officer</option>
+          <option value="super-admin">Super Administrator</option>
+        </select>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-secondary" onclick="this.closest('dialog').close()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Send Invitation</button>
+      </div>
+    </form>
+  </dialog>
+  
+  <!-- 2. WEBSITE REQUEST DIALOG -->
+  <dialog id="website-request-dialog">
+    <div class="dialog-header">
+      <span class="dialog-title">Club Website Request Form</span>
+      <button class="dialog-close" onclick="this.closest('dialog').close()">&times;</button>
+    </div>
+    <form id="web-request-form" onsubmit="submitWebsiteRequest(event)">
+      <div class="form-group">
+        <label for="web-domain">Preferred Domain Name</label>
+        <input type="text" id="web-domain" placeholder="e.g. colombocentennial.leoclubs.org" required autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="web-purpose">Website Objective & Purpose</label>
+        <textarea id="web-purpose" placeholder="Briefly describe what this site achieves..." required></textarea>
+      </div>
+      <div class="form-group row">
+        <div>
+          <label for="web-hosting">Hosting Preference</label>
+          <select id="web-hosting" required>
+            <option value="District Shared Hosting">District Shared Hosting</option>
+            <option value="Self-Hosted (External)">Self-Hosted (External)</option>
+          </select>
+        </div>
+        <div>
+          <label for="web-target-date">Required Launch Date</label>
+          <input type="date" id="web-target-date" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="web-logo">Logo Upload [MOCK]</label>
+        <input type="text" id="web-logo" placeholder="Paste link or type filename (e.g. logo.png)" required autocomplete="off">
+      </div>
+      <div style="font-size:0.75rem; border:1px solid rgba(227,217,252,0.15); padding:10px; border-radius:8px; background:rgba(227,217,252,0.03); line-height:1.4;">
+        <label style="display:flex; align-items:center; gap:8px; margin-bottom:0; font-weight:500;">
+          <input type="checkbox" required style="accent-color:var(--success);">
+          <span>Acknowledge that content complies with Lions International and District PR Branding policies.</span>
+        </label>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-secondary" onclick="this.closest('dialog').close()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Submit Request</button>
+      </div>
+    </form>
+  </dialog>
+  
+  <!-- 3. PROJECT WEBSITE REQUEST DIALOG -->
+  <dialog id="project-request-dialog">
+    <div class="dialog-header">
+      <span class="dialog-title">Project Website Request Form</span>
+      <button class="dialog-close" onclick="this.closest('dialog').close()">&times;</button>
+    </div>
+    <form id="proj-request-form" onsubmit="submitProjectRequest(event)">
+      <div class="form-group row">
+        <div>
+          <label for="proj-title">Project Title</label>
+          <input type="text" id="proj-title" placeholder="e.g. Spark 2026 Conference" required autocomplete="off">
+        </div>
+        <div>
+          <label for="proj-category">Project Category</label>
+          <select id="proj-category" required>
+            <option value="Conferences">Conferences / Summit</option>
+            <option value="Fundraising projects">Fundraising Project</option>
+            <option value="Service projects">Service Project</option>
+            <option value="Sports events">Sports Event</option>
+            <option value="Awareness campaigns">Awareness Campaign</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="proj-desc">Detailed Description</label>
+        <textarea id="proj-desc" placeholder="Details of the event or campaign..." required></textarea>
+      </div>
+      <div class="form-group row">
+        <div>
+          <label for="proj-chair">Project Chairperson</label>
+          <input type="text" id="proj-chair" required autocomplete="off">
+        </div>
+        <div>
+          <label for="proj-subdomain">Target Subdomain</label>
+          <input type="text" id="proj-subdomain" placeholder="e.g. spark.colombocentennial.org" required autocomplete="off">
+        </div>
+      </div>
+      <div class="form-group row">
+        <div>
+          <label for="proj-target-date">Required Launch Date</label>
+          <input type="date" id="proj-target-date" required>
+        </div>
+        <div>
+          <label for="proj-features">Advanced Functions Requested</label>
+          <select id="proj-features" multiple style="height:60px;">
+            <option value="Participant registration">Participant Registration</option>
+            <option value="Volunteer recruitment">Volunteer Recruitment</option>
+            <option value="Sponsors showcase">Sponsors Showcase</option>
+            <option value="Certificate downloads">Certificate Downloads</option>
+          </select>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-secondary" onclick="this.closest('dialog').close()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Submit Request</button>
+      </div>
+    </form>
+  </dialog>
+  
+  <!-- 4. MAINTENANCE TICKET DIALOG -->
+  <dialog id="new-maintenance-dialog">
+    <div class="dialog-header">
+      <span class="dialog-title">Submit Maintenance/Support Ticket</span>
+      <button class="dialog-close" onclick="this.closest('dialog').close()">&times;</button>
+    </div>
+    <form id="maint-ticket-form" onsubmit="submitMaintenanceTicket(event)">
+      <div class="form-group row">
+        <div>
+          <label for="ticket-category">Ticket Category</label>
+          <select id="ticket-category" required>
+            <option value="Content update">Content update</option>
+            <option value="Officer update">Officer update</option>
+            <option value="Technical error">Technical error</option>
+            <option value="Domain issue">Domain issue</option>
+            <option value="Website downtime">Website downtime</option>
+            <option value="Password reset">Password reset</option>
+          </select>
+        </div>
+        <div>
+          <label for="ticket-priority">Priority Severity</label>
+          <select id="ticket-priority" required>
+            <option value="Low">Low</option>
+            <option value="Normal" selected>Normal</option>
+            <option value="High">High</option>
+            <option value="Urgent">Urgent</option>
+            <option value="Critical">Critical</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="ticket-subject">Subject</label>
+        <input type="text" id="ticket-subject" placeholder="Short description of the issue" required autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="ticket-details">Detailed Explanation</label>
+        <textarea id="ticket-details" placeholder="Explain the problem or content change. Provide staging links if applicable..." required></textarea>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-secondary" onclick="this.closest('dialog').close()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Submit Ticket</button>
+      </div>
+    </form>
+  </dialog>
+  
+  <!-- 5. PR PRE-REVIEW DIALOG -->
+  <dialog id="new-pr-review-dialog">
+    <div class="dialog-header">
+      <span class="dialog-title">Submit Flyer / PR Material for Review</span>
+      <button class="dialog-close" onclick="this.closest('dialog').close()">&times;</button>
+    </div>
+    <form id="pr-review-form" onsubmit="submitPRReview(event)">
+      <div class="form-group row">
+        <div>
+          <label for="pr-rev-type">Material Type</label>
+          <select id="pr-rev-type" required>
+            <option value="Flyer">Flyer / Banner</option>
+            <option value="Social media post">Social media post</option>
+            <option value="Press release">Press release</option>
+            <option value="Video">Video</option>
+            <option value="Sponsorship proposal">Sponsorship proposal</option>
+          </select>
+        </div>
+        <div>
+          <label for="pr-rev-subject">Subject</label>
+          <input type="text" id="pr-rev-subject" placeholder="e.g. Spark 2026 Invitation Flyer" required autocomplete="off">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="pr-rev-desc">Context & Description</label>
+        <textarea id="pr-rev-desc" placeholder="Explain where this flyer is being published..." required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="pr-rev-file">Mock File Upload (Path / Name)</label>
+        <input type="text" id="pr-rev-file" placeholder="e.g. spark_flyer.jpg" required autocomplete="off">
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-secondary" onclick="this.closest('dialog').close()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Submit for Pre-Review</button>
+      </div>
+    </form>
+  </dialog>
+  
+  <!-- 6. COMPLIANCE CASE DIALOG -->
+  <dialog id="new-compliance-dialog">
+    <div class="dialog-header">
+      <span class="dialog-title">Log PR Branding Violation Case</span>
+      <button class="dialog-close" onclick="this.closest('dialog').close()">&times;</button>
+    </div>
+    <form id="compliance-case-form" onsubmit="submitComplianceCase(event)">
+      <div class="form-group row">
+        <div>
+          <label for="comp-club">Offending Leo Club</label>
+          <select id="comp-club" required>
+            <!-- JS populated options -->
+          </select>
+        </div>
+        <div>
+          <label for="comp-category">Violation Category</label>
+          <select id="comp-category" required>
+            <option value="Incorrect logo">Incorrect logo / distorted image</option>
+            <option value="Incorrect colour usage">Incorrect color usage</option>
+            <option value="Missing official logo">Missing official Lions logo</option>
+            <option value="Incorrect designation">Incorrect officer designation reference</option>
+            <option value="Unapproved logo">Unapproved logo branding</option>
+            <option value="Code of Conduct concern">Code of Conduct violation</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div>
+          <label for="comp-severity">Issue Severity</label>
+          <select id="comp-severity" required>
+            <option value="Level 1 — Advisory">Level 1 - Advisory</option>
+            <option value="Level 2 — Required Change">Level 2 - Required Change</option>
+            <option value="Level 3 — Urgent">Level 3 - Urgent</option>
+            <option value="Level 4 — Emergency">Level 4 - Emergency</option>
+          </select>
+        </div>
+        <div>
+          <label for="comp-deadline">Correction Deadline</label>
+          <input type="date" id="comp-deadline" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="comp-url">Publication Channel URL</label>
+        <input type="url" id="comp-url" placeholder="https://instagram.com/p/..." required autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label style="display:block;">Required Correction Steps</label>
+        <textarea id="comp-steps" placeholder="List instructions the club president must follow to resolve this..." required></textarea>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-secondary" onclick="this.closest('dialog').close()">Cancel</button>
+        <button type="submit" class="btn btn-primary">File Violation Case</button>
+      </div>
+    </form>
+  </dialog>
+  
+  <!-- 7. EMERGENCY NOTICE DIALOG -->
+  <dialog id="new-emergency-dialog">
+    <div class="dialog-header">
+      <span class="dialog-title">Dispatch Emergency Branding Directive</span>
+      <button class="dialog-close" onclick="this.closest('dialog').close()">&times;</button>
+    </div>
+    <form id="emergency-directive-form" onsubmit="submitEmergencyDirective(event)">
+      <div class="form-group">
+        <label for="em-club">Target Leo Club</label>
+        <select id="em-club" required>
+          <!-- JS options -->
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="em-headline">Directive Headline</label>
+        <input type="text" id="em-headline" placeholder="Urgent Action Required: Prohibited Logo Removal" required autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="em-instruction">Directive Instruction details</label>
+        <textarea id="em-instruction" placeholder="Provide complete emergency instructions. Explain what must be taken down immediately..." required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="em-severity">Emergency Level</label>
+        <select id="em-severity" required>
+          <option value="Level 3 — Urgent">Level 3 - Urgent</option>
+          <option value="Level 4 — Emergency" selected>Level 4 - Emergency</option>
+        </select>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-secondary" onclick="this.closest('dialog').close()">Cancel</button>
+        <button type="submit" class="btn btn-danger">Dispatch Notice Now</button>
+      </div>
+    </form>
+  </dialog>
+  
+  <!-- 8. VERIFICATION CASE DIALOG -->
+  <dialog id="new-verification-dialog">
+    <div class="dialog-header">
+      <span class="dialog-title">File Verification/Clarification Request</span>
+      <button class="dialog-close" onclick="this.closest('dialog').close()">&times;</button>
+    </div>
+    <form id="verif-case-form" onsubmit="submitVerificationRequest(event)">
+      <div class="form-group row">
+        <div>
+          <label for="ver-class">Classification Category</label>
+          <select id="ver-class" required>
+            <option value="Project approval clarification">Project approval clarification</option>
+            <option value="Club administration issue">Club administration dispute</option>
+            <option value="Officer dispute">Officer dispute</option>
+            <option value="PR compliance dispute">PR compliance appeal</option>
+            <option value="Financial documentation issue">Financial audit inquiry</option>
+          </select>
+        </div>
+        <div>
+          <label for="ver-subject">Subject</label>
+          <input type="text" id="ver-subject" placeholder="Summary of the clarification matter" required autocomplete="off">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="ver-desc">Background & Issue Description</label>
+        <textarea id="ver-desc" placeholder="Detail the matter requiring district clarification..." required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="ver-evidence">Evidence Mock File Attachment</label>
+        <input type="text" id="ver-evidence" placeholder="e.g. minutes_june.pdf" autocomplete="off">
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-secondary" onclick="this.closest('dialog').close()">Cancel</button>
+        <button type="submit" class="btn btn-primary">File Request</button>
+      </div>
+    </form>
+  </dialog>
+  
+  <!-- 9. GENERAL DETAILS VIEW DIALOG (Dynamic content) -->
+  <dialog id="details-view-dialog">
+    <div class="dialog-header">
+      <span class="dialog-title" id="details-dialog-title">Record Details</span>
+      <button class="dialog-close" onclick="this.closest('dialog').close()">&times;</button>
+    </div>
+    <div id="details-dialog-content" style="line-height:1.6; font-size:0.9rem;">
+      <!-- JS populated -->
+    </div>
+    <div class="dialog-actions" id="details-dialog-actions">
+      <button type="button" class="btn btn-secondary" onclick="this.closest('dialog').close()">Close</button>
+    </div>
+  </dialog>
+  
+  <!-- Toast alerts -->
+  <div id="toast-container"></div>
+  
+  <script src="app.js"></script>
+</body>
+</html>
