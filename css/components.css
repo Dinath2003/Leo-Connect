@@ -1,0 +1,376 @@
+/* Card Styling matching UI image */
+.card {
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: var(--transition);
+}
+
+.card:hover {
+  border-color: rgba(255,255,255,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title-icon {
+  color: var(--periwinkle);
+  opacity: 0.4;
+  cursor: pointer;
+}
+
+/* Stats Row Grid matching UI image */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  padding: 16px;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--periwinkle);
+  opacity: 0.5;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 8px 0 4px 0;
+}
+
+.stat-trend {
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.trend-up {
+  color: var(--success);
+}
+
+.trend-down {
+  color: var(--danger);
+}
+
+/* Donut Chart visual in Sales Overview matching UI */
+.chart-container-row {
+  display: grid;
+  grid-template-columns: 1.8fr 1.2fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.donut-chart-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.donut-visual {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--success) 0% 60%,
+    var(--hyper-magenta) 60% 80%,
+    var(--info) 80% 95%,
+    var(--warning) 95% 100%
+  );
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-center {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-center-value {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.donut-center-label {
+  font-size: 0.65rem;
+  color: var(--periwinkle);
+  opacity: 0.5;
+}
+
+.donut-legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.legend-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.legend-label-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--periwinkle);
+  opacity: 0.6;
+}
+
+.legend-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.legend-val {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 2px;
+  margin-left: 12px;
+}
+
+/* Sparkline area chart visual matching UI */
+.sparkline-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.sparkline-visual {
+  height: 60px;
+  background: linear-gradient(180deg, rgba(123, 69, 240, 0.1), transparent);
+  position: relative;
+  border-bottom: 2px solid var(--success);
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+.sparkline-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--success);
+  border-radius: 50%;
+  top: 30%;
+  left: 40%;
+  box-shadow: 0 0 10px var(--success);
+}
+
+/* Banner Promotional CTA matching UI image */
+.promo-banner {
+  background: radial-gradient(circle at 100% 0%, rgba(123, 69, 240, 0.15), transparent),
+              linear-gradient(135deg, #130D26, #0B071A);
+  border: 1px solid rgba(123, 69, 240, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.promo-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 6px;
+  font-size: 0.7rem;
+  width: fit-content;
+  color: var(--success);
+}
+
+.promo-price-row {
+  margin: 16px 0;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.promo-price {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+
+.promo-price-sub {
+  font-size: 0.75rem;
+  color: var(--periwinkle);
+  opacity: 0.5;
+}
+
+.promo-btn-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.promo-btn {
+  flex-grow: 1;
+  background: #7B45F0;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.promo-btn-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Customer List Table matching UI image */
+.customer-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.table-profile-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.table-profile-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--hyper-magenta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.table-profile-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-profile-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.table-profile-email {
+  font-size: 0.7rem;
+  color: var(--periwinkle);
+  opacity: 0.5;
+}
+
+/* Tables, Forms standard overrides for new theme */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="url"],
+input[type="number"],
+select,
+textarea {
+  background: #191326;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--success);
+  box-shadow: 0 0 10px rgba(123, 69, 240, 0.1);
+  background: #201736;
+}
+
+.badge {
+  font-weight: 600;
+}
+
+/* Badges mappings to match theme */
+.badge-approved, .badge-active, .badge-completed, .badge-published { background: rgba(123, 69, 240, 0.12); color: var(--success); }
+.badge-submitted, .badge-draft { background: rgba(227, 217, 252, 0.1); color: var(--periwinkle); }
+.badge-review, .badge-triage { background: rgba(64, 196, 255, 0.12); color: var(--info); }
+.badge-assigned, .badge-progress { background: rgba(208, 188, 252, 0.12); color: var(--hyper-magenta); }
+.badge-rejected, .badge-cancelled, .badge-overdue { background: rgba(255, 82, 82, 0.12); color: var(--danger); }
+.badge-warning, .badge-action { background: rgba(255, 214, 0, 0.12); color: var(--warning); }
+
+/* Native dialog styles matching theme */
+dialog {
+  background: #130D26;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #7B45F0, #6631DB);
+  color: var(--white);
+  box-shadow: 0 4px 20px rgba(123, 69, 240, 0.35);
+  font-weight: 700;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #6631DB, #491AB1);
+  transform: none;
+  box-shadow: 0 4px 25px rgba(123, 69, 240, 0.5);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--white);
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+/* Tabs */
+.tab-btn.active {
+  color: var(--success);
+  border-bottom-color: var(--success);
+}
+
+/* Toast styling override */
+.toast {
+  background: #130D26;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-left: 4px solid var(--success);
+}

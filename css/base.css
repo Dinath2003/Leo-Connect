@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Brand Colors from Purple Theme Palette */
+  --periwinkle: #D0BCFC; /* Very Light Lavender */
+  --hyper-magenta: #7B45F0; /* Vibrant Purple Accent */
+  --ultrasonic-blue: #6631DB; /* Medium Violet-Purple */
+  --velvet-purple: #491AB1; /* Dark Violet/Purple */
+  --black: #0B071A; /* Deep Purple-Black Abyss */
+  --card-bg: #130D26; /* Dark Navy-Purple Card Background */
+  --sidebar-bg: #070410; /* Deeper Sidebar Purple-Black */
+  --slate-blue: #8A7EBE; /* Muted Lavender-Slate Text */
+  
+  /* Additional Functional Colors */
+  --white: #FFFFFF;
+  --glass-border: rgba(123, 69, 240, 0.1);
+  --glass-glow: rgba(123, 69, 240, 0.12);
+  
+  --success: #7B45F0; /* Vibrant Purple Active State */
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
+  
+  /* Layout Sizing */
+  --left-sidebar-width: 260px;
+  --right-sidebar-width: 320px;
+  --header-height: 70px;
+  
+  /* Fonts */
+  --font-main: 'Plus Jakarta Sans', sans-serif;
+  --font-display: 'Space Grotesk', 'Outfit', sans-serif;
+  
+  /* Transitions */
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset and Core Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(227, 217, 252, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--hyper-magenta);
+}
+
+a {
+  color: var(--periwinkle);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--hyper-magenta);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: var(--font-main);
+}
