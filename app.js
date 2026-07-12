@@ -2877,22 +2877,28 @@ function handleLoginSubmit(event) {
 
   let loggedUser = null;
   const users = state.getData("users");
+  const emailLower = email.toLowerCase();
   
-  if (email.toLowerCase() === "guest@leo.org") {
+  if (emailLower === "admin@leo.org" || emailLower === "dinesh.admin@leodistrict.org") {
+    loggedUser = users.find(u => u.role === "super-admin") || users[0];
+  } else if (emailLower === "president@leo.org" || emailLower === "dilan.pres@leocolombocentennial.org") {
+    loggedUser = users.find(u => u.role === "club-president") || users[1];
+  } else if (emailLower === "pr@leo.org" || emailLower === "sanduni.pr@leodistrict.org") {
+    loggedUser = users.find(u => u.role === "district-pr") || users[2];
+  } else if (emailLower === "tech@leo.org" || emailLower === "naveen.it@leodistrict.org") {
+    loggedUser = users.find(u => u.role === "district-tech") || users[3];
+  } else if (emailLower === "verif@leo.org" || emailLower === "dilhara.verify@leodistrict.org") {
+    loggedUser = users.find(u => u.role === "district-verification") || users[4];
+  } else if (emailLower === "guest@leo.org") {
     loggedUser = { name: "Guest Leo / Public", role: "individual-leo", club: "None" };
   } else {
-    loggedUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    // Search general seeded users by exact email
+    loggedUser = users.find(u => u.email.toLowerCase() === emailLower);
   }
 
   if (!loggedUser) {
-    const activeRoleBtn = document.querySelector(".role-grid-btn.active");
-    const roleKey = activeRoleBtn ? activeRoleBtn.getAttribute("data-role") : "super-admin";
-    
-    if (roleKey === "individual-leo") {
-      loggedUser = { name: "Guest Leo / Public", role: "individual-leo", club: "None" };
-    } else {
-      loggedUser = users.find(u => u.role === roleKey) || users[0];
-    }
+    showLoginError("User account not found. Try one of the simulation buttons.");
+    return;
   }
 
   state.setLoginState(true, loggedUser);
