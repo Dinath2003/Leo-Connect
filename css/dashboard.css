@@ -74,8 +74,10 @@
 
 /* Task Cards */
 .task-card-item {
-  background: var(--card-bg);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: rgba(19, 13, 38, 0.45);
+  border: 1px solid rgba(123, 69, 240, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 16px;
   padding: 20px;
   margin-bottom: 16px;
@@ -84,14 +86,17 @@
 }
 
 .task-card-item:hover {
-  border-color: rgba(123, 69, 240, 0.2);
+  border-color: rgba(123, 69, 240, 0.45);
+  box-shadow: 0 8px 30px rgba(123, 69, 240, 0.15);
   transform: translateY(-2px);
 }
 
 .task-card-item.expanded {
-  background: linear-gradient(135deg, #491AB1 0%, #10062D 100%);
-  border: 1px solid rgba(123, 69, 240, 0.4);
-  box-shadow: 0 10px 30px rgba(123, 69, 240, 0.15);
+  background: linear-gradient(135deg, rgba(73, 26, 177, 0.4) 0%, rgba(16, 6, 45, 0.7) 100%);
+  border: 1px solid rgba(123, 69, 240, 0.5);
+  box-shadow: 0 10px 30px rgba(123, 69, 240, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .task-card-header {
@@ -244,13 +249,15 @@
 
 /* Right Sidebar Cards */
 .today-note-card {
-  background: linear-gradient(135deg, #34117E 0%, #0E0427 100%);
-  border: 1px solid rgba(123, 69, 240, 0.2);
+  background: linear-gradient(135deg, rgba(52, 17, 126, 0.4) 0%, rgba(14, 4, 39, 0.7) 100%);
+  border: 1px solid rgba(123, 69, 240, 0.25);
   border-radius: 20px;
   padding: 20px;
   margin-bottom: 20px;
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .today-note-header {
@@ -322,11 +329,13 @@
 
 /* My Files Card */
 .my-files-card {
-  background: var(--card-bg);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: rgba(19, 13, 38, 0.45);
+  border: 1px solid rgba(123, 69, 240, 0.15);
   border-radius: 20px;
   padding: 20px;
   margin-bottom: 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .my-files-upload-zone {
@@ -396,10 +405,12 @@
 
 /* Activity Card */
 .activity-chart-card {
-  background: var(--card-bg);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: rgba(19, 13, 38, 0.45);
+  border: 1px solid rgba(123, 69, 240, 0.15);
   border-radius: 20px;
   padding: 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .activity-header-row {
@@ -460,4 +471,61 @@
   font-size: 0.65rem;
   color: var(--slate-blue);
   margin-top: 4px;
+}
+
+/* Dashboard Welcome Banner */
+.welcome-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(123, 69, 240, 0.15) 0%, rgba(102, 49, 219, 0.03) 100%);
+  border: 1px solid rgba(123, 69, 240, 0.2);
+  border-radius: 16px;
+  padding: 24px 30px;
+  margin-bottom: 24px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-title {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+
+.welcome-subtitle {
+  font-size: 0.85rem;
+  color: var(--slate-blue);
+  line-height: 1.45;
+  max-width: 500px;
+}
+
+.welcome-graphic-side {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-pulse-circle {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--hyper-magenta);
+  box-shadow: 0 0 20px var(--hyper-magenta), 0 0 40px var(--hyper-magenta);
+  position: relative;
+  animation: pulseGlow 2.5s infinite;
+}
+
+@keyframes pulseGlow {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.8; }
 }
