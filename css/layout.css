@@ -10,6 +10,8 @@ aside#app-sidebar {
   width: var(--left-sidebar-width);
   background: var(--sidebar-bg);
   border-right: 1px solid var(--glass-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   padding: 24px 16px;
   display: flex;
   flex-direction: column;
@@ -202,7 +204,10 @@ main {
 /* Header bar */
 header {
   height: var(--header-height);
-  background: var(--black);
+  background: rgba(11, 7, 26, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
   padding: 0 30px;
   display: flex;
   align-items: center;
@@ -292,6 +297,8 @@ header {
   width: var(--right-sidebar-width);
   background: var(--sidebar-bg);
   border-left: 1px solid var(--glass-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   padding: 24px 20px;
   display: flex;
   flex-direction: column;

@@ -28,11 +28,13 @@
   background: transparent;
 }
 
-.login-bg canvas {
-  position: absolute;
+#login-particle-canvas {
+  position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
   display: block;
 }
 

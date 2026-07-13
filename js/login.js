@@ -8,37 +8,12 @@ let particleCleanupFn = null;
 function initLoginAnimations() {
   cleanupLoginAnimations();
   initTiltAnimation();
-  initParticleAnimation();
-  
-  const roleButtons = document.querySelectorAll(".role-grid-btn");
-  const emailInput = document.getElementById("login-email");
-  const passInput = document.getElementById("login-password");
-  
-  roleButtons.forEach(btn => {
-    btn.onclick = () => {
-      roleButtons.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      
-      const email = btn.getAttribute("data-email");
-      if (emailInput) emailInput.value = email;
-      if (passInput) passInput.value = "leo123";
-    };
-  });
-
-  const loginForm = document.getElementById("login-form");
-  if (loginForm) {
-    loginForm.onsubmit = handleLoginSubmit;
-  }
 }
 
 function cleanupLoginAnimations() {
   if (tiltCleanupFn) {
     tiltCleanupFn();
     tiltCleanupFn = null;
-  }
-  if (particleCleanupFn) {
-    particleCleanupFn();
-    particleCleanupFn = null;
   }
 }
 
@@ -510,6 +485,29 @@ function handleLogout() {
 window.addEventListener("DOMContentLoaded", () => {
   setupNavigation();
   setupRoleSwitcher();
+  initParticleAnimation(); // Start the background particles globally
+  
+  // Bind login role buttons click events
+  const roleButtons = document.querySelectorAll(".role-grid-btn");
+  const emailInput = document.getElementById("login-email");
+  const passInput = document.getElementById("login-password");
+  
+  roleButtons.forEach(btn => {
+    btn.onclick = () => {
+      roleButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      
+      const email = btn.getAttribute("data-email");
+      if (emailInput) emailInput.value = email;
+      if (passInput) passInput.value = "leo123";
+    };
+  });
+
+  // Bind login form submit
+  const loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    loginForm.onsubmit = handleLoginSubmit;
+  }
   
   if (state.isLoggedIn && state.currentUser) {
     // Set simulator value
