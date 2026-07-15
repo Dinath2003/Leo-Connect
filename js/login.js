@@ -162,7 +162,7 @@ function initParticleAnimation() {
       const hue = t < 0.35 ? 260 : (t < 0.75 ? 275 : 290);
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = `hsla(${hue}, 100%, 65%, ${this.alpha * 0.2})`;
+      ctx.fillStyle = `hsla(${hue}, 100%, 65%, ${this.alpha})`;
       ctx.fill();
     }
   }
@@ -292,9 +292,9 @@ function initParticleAnimation() {
     }
   }
 
-  const embers = Array.from({ length: 25 }, () => new Ember(true));
-  const flames = [];
-  const comets = [];
+  const embers = Array.from({ length: 90 }, () => new Ember(true));
+  const flames = Array.from({ length: 30 }, () => new FlameBody(true));
+  const comets = Array.from({ length: 6 }, () => new Comet(true));
 
   const drawBg = () => {
     const W = canvas.width, H = canvas.height;
@@ -372,7 +372,7 @@ function initParticleAnimation() {
     comets.forEach(c => { c.update(); c.draw(); });
     ctx.restore();
 
-    // drawGravityOrb();
+    drawGravityOrb();
 
     ctx.save();
     ctx.globalCompositeOperation = "screen";
@@ -380,7 +380,7 @@ function initParticleAnimation() {
     embers.forEach(e => { e.update(); e.draw(); });
     ctx.restore();
 
-    // drawGroundGlow();
+    drawGroundGlow();
     animId = requestAnimationFrame(render);
   };
 
