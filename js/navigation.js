@@ -1,5 +1,5 @@
 // ==========================================
-// VIEW ROUTER & NAVIGATION
+// VIEW ROUTER & NAVIGATION (WITH HASH ROUTING & BREADCRUMBS)
 // ==========================================
 
 function setupNavigation() {
@@ -8,8 +8,35 @@ function setupNavigation() {
     item.addEventListener("click", () => {
       const viewId = item.getAttribute("data-view");
       switchView(viewId);
+      closeMobileSidebar();
     });
   });
+
+  // Mobile menu button bind
+  const mobBtn = document.querySelector(".mobile-menu-btn");
+  if (mobBtn) {
+    mobBtn.onclick = toggleMobileSidebar;
+  }
+
+  // Setup hash routing
+  setupHashRouting();
+}
+
+function setupHashRouting() {
+  window.addEventListener("hashchange", () => {
+    const hash = window.location.hash.substring(1);
+    if (hash && hash !== state.activeView) {
+      if (state.isLoggedIn || hash === "login") {
+        switchView(hash);
+      }
+    }
+  });
+
+  // Load initial view from hash
+  const initialHash = window.location.hash.substring(1);
+  if (initialHash && (state.isLoggedIn || initialHash === "login")) {
+    switchView(initialHash);
+  }
 }
 
 function switchView(viewId) {
@@ -19,6 +46,11 @@ function switchView(viewId) {
   }
   
   state.activeView = viewId;
+  
+  // Sync URL hash
+  if (window.location.hash.substring(1) !== viewId) {
+    window.location.hash = viewId;
+  }
   
   // Toggle layout sections visibility based on viewId
   const appContainer = document.getElementById("app-container");
@@ -54,9 +86,13 @@ function switchView(viewId) {
     });
   }
 
+  // Update breadcrumbs
+  updateBreadcrumbs(viewId);
+
   // Update header text title
   const viewTitles = {
     dashboard: "Workspace Dashboard",
+    workspace: "Process Workspace",
     admin: "District Administration & Rollover",
     websites: "Website & Project Requests",
     maintenance: "Maintenance Support & Training",
@@ -75,6 +111,22 @@ function switchView(viewId) {
   }
 }
 
+/** Update breadcrumbs UI */
+function updateBreadcrumbs(viewId) {
+  const container = document.getElementById("app-breadcrumbs");
+  if (!container) return;
+
+  if (viewId === "dashboard" || viewId === "login") {
+    container.innerHTML = `<span class="breadcrumb-current">Home</span>`;
+  } else {
+    container.innerHTML = `
+      <span class="breadcrumb-item" onclick="switchView('dashboard')">Home</span>
+      <span class="breadcrumb-separator">/</span>
+      <span class="breadcrumb-current">${getModuleName(viewId)}</span>
+    `;
+  }
+}
+
 function switchSubTab(event, tabContentId) {
   const tabContainer = event.currentTarget.parentElement;
   // Clear siblings
@@ -89,6 +141,46 @@ function switchSubTab(event, tabContentId) {
       content.classList.remove("active");
     }
   });
+}
+
+// === MOBILE NAVIGATION CONTROLS ===
+
+function toggleMobileSidebar() {
+  const sidebar = document.getElementById("app-sidebar");
+  const overlay = document.getElementById("notification-overlay"); // Share mobile overlay
+  if (sidebar) {
+    sidebar.classList.toggle("mobile-open");
+    const open = sidebar.classList.contains("mobile-open");
+    if (overlay) {
+      if (open) overlay.classList.add("active");
+      else overlay.classList.remove("active");
+      
+      // Close sidebar if overlay clicked
+      overlay.onclick = closeMobileSidebar;
+    }
+  }
+}
+
+function closeMobileSidebar() {
+  const sidebar = document.getElementById("app-sidebar");
+  const overlay = document.getElementById("notification-overlay");
+  if (sidebar) sidebar.classList.remove("mobile-open");
+  if (overlay) overlay.classList.remove("active");
+}
+
+// === FOCUS MODE CONTROLS ===
+
+function toggleFocusMode() {
+  const body = document.body;
+  body.classList.toggle("focus-mode");
+  const active = body.classList.contains("focus-mode");
+  showToast(active ? "Focus Mode enabled — sidebars collapsed" : "Focus Mode disabled", "info");
+  
+  const btn = document.getElementById("focus-mode-btn");
+  if (btn) {
+    btn.classList.toggle("active", active);
+    btn.innerHTML = active ? "👁️ Full View" : "🔍 Focus Mode";
+  }
 }
 
 // ==========================================
@@ -151,3 +243,4 @@ function filterSidebarItems() {
     if (navAudit) navAudit.style.display = "none";
   }
 }
+

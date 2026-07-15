@@ -486,6 +486,9 @@ window.addEventListener("DOMContentLoaded", () => {
   setupNavigation();
   setupRoleSwitcher();
   initParticleAnimation(); // Start the background particles globally
+  initSearch();
+  initNotifications();
+  initHelp();
   
   // Bind login role buttons click events
   const roleButtons = document.querySelectorAll(".role-grid-btn");

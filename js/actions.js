@@ -1232,3 +1232,26 @@ function completeAppointment(aptId) {
   showToast("Appointment completed.", "success");
   renderAppointments();
 }
+
+// === REDIRECTS TO PROCESS WORKSPACE ===
+function viewRequestDetails(reqId) { openProcessWorkspace('website', reqId); }
+function viewMaintenanceTicket(tId) { openProcessWorkspace('maintenance', tId); }
+function manageComplianceCase(caseId) { openProcessWorkspace('compliance', caseId); }
+function viewVerificationCaseDetails(caseId) { openProcessWorkspace('verification', caseId); }
+function viewInquiryDetails(inqId) { openProcessWorkspace('inquiry', inqId); }
+function manageEmergencyNotice(nId) {
+  const list = state.getData("emergencyNotices") || [];
+  const notice = list.find(x => x.id === nId);
+  if (notice) {
+    // Find matching compliance case for this club, or default to compliance dashboard
+    const compliance = state.getData("complianceCases") || [];
+    const matchedCase = compliance.find(c => c.clubId === notice.clubId || c.clubName === notice.clubName);
+    if (matchedCase) {
+      openProcessWorkspace('compliance', matchedCase.id);
+    } else {
+      switchView('governance');
+      showToast("Compliance case not found, opening Governance module.", "warning");
+    }
+  }
+}
+

@@ -21,6 +21,27 @@
   --danger: #ef4444;
   --info: #3b82f6;
   
+  /* Semantic Status Colors */
+  --success-green: #10b981;
+  --success-green-bg: rgba(16, 185, 129, 0.12);
+  --warning-bg: rgba(245, 158, 11, 0.12);
+  --danger-bg: rgba(239, 68, 68, 0.12);
+  --info-bg: rgba(59, 130, 246, 0.12);
+  --emergency: #dc2626;
+  --emergency-bg: rgba(220, 38, 38, 0.12);
+  
+  /* Process Status Colors */
+  --status-draft: #94a3b8;
+  --status-submitted: #8b5cf6;
+  --status-review: #3b82f6;
+  --status-progress: #6366f1;
+  --status-approved: #10b981;
+  --status-completed: #059669;
+  --status-emergency: #dc2626;
+  
+  /* Focus Ring */
+  --focus-ring: 0 0 0 2px var(--black), 0 0 0 4px var(--hyper-magenta);
+  
   /* Layout Sizing */
   --left-sidebar-width: 260px;
   --right-sidebar-width: 320px;
@@ -84,4 +105,37 @@ button {
   border: none;
   outline: none;
   font-family: var(--font-main);
+}
+
+/* Focus Visible Styles */
+*:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Skip Navigation */
+.skip-nav {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 10000;
+  padding: 12px 24px;
+  background: var(--hyper-magenta);
+  color: var(--white);
+  border-radius: 0 0 8px 8px;
+  font-weight: 600;
+  transition: top 0.2s;
+}
+.skip-nav:focus {
+  top: 0;
 }

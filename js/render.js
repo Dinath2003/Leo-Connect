@@ -7,6 +7,9 @@ function renderViewData(viewId) {
     case "dashboard":
       renderDashboard();
       break;
+    case "workspace":
+      renderWorkspaceView();
+      break;
     case "admin":
       renderAdminPanel();
       break;
@@ -56,134 +59,214 @@ function renderDashboard() {
   const container = document.getElementById("dashboard-tasks-container");
   if (!container) return;
 
-  const requests = state.getData("websiteRequests");
-  const complianceCases = state.getData("complianceCases");
+  const user = state.currentUser;
+  if (!user) return;
+
+  const role = user.role;
+  const requests = state.getData("websiteRequests") || [];
+  const complianceCases = state.getData("complianceCases") || [];
+  const tickets = state.getData("maintenanceTickets") || [];
+  const appointments = state.getData("appointments") || [];
+  const emergencies = state.getData("emergencyNotices") || [];
+  const verification = state.getData("verificationCases") || [];
   const checklist = JSON.parse(localStorage.getItem("trainingChecklist")) || {};
 
-  // Calculate compliance progress percent
-  let compliancePercent = 40;
-  if (checklist["video-orient"]) compliancePercent += 20;
-  if (checklist["pdf-edit"]) compliancePercent += 20;
-  if (checklist["quiz-pass"]) compliancePercent += 20;
-
-  // Filter requests based on selection
-  let filteredRequests = requests;
-  if (currentDashboardFilter === 'Progress') {
-    filteredRequests = requests.filter(r => r.status.includes("Progress") || r.status.includes("Dev") || r.status.includes("Review"));
-  } else if (currentDashboardFilter === 'Published') {
-    filteredRequests = requests.filter(r => r.status === "Published");
+  // 1. Calculate stats based on role
+  let stats = [];
+  if (role === 'super-admin') {
+    const activeReqs = requests.filter(r => r.status !== 'Published' && r.status !== 'Rejected' && r.status !== 'Cancelled').length;
+    const pendingReviews = requests.filter(r => r.status === 'Submitted' || r.status === 'PR and Branding Review').length;
+    const nonCompliant = state.getData("clubs").filter(c => c.brandingStatus !== 'Compliant').length;
+    const activeApts = appointments.filter(a => a.status === 'Confirmed' || a.status === 'Requested').length;
+    
+    stats = [
+      { label: 'Active Requests', value: activeReqs, trend: 'All websites in pipeline', icon: '🌐' },
+      { label: 'Pending Reviews', value: pendingReviews, trend: 'Awaiting decision', icon: '📋' },
+      { label: 'Non-Compliant Clubs', value: nonCompliant, trend: 'Warning / Action required', icon: '🛡️' },
+      { label: 'Active Appointments', value: activeApts, trend: 'Upcoming meetings', icon: '📅' }
+    ];
+  } else if (role === 'club-president') {
+    const myReqs = requests.filter(r => r.clubId === user.club).length;
+    const myTickets = tickets.filter(t => t.club === user.club).length;
+    const clubObj = state.getData("clubs").find(c => c.id === user.club) || {};
+    const compliance = clubObj.brandingStatus || 'Compliant';
+    const myApts = appointments.filter(a => a.requestedBy === user.name).length;
+    
+    stats = [
+      { label: 'My Web Requests', value: myReqs, trend: 'Websites & projects', icon: '🌐' },
+      { label: 'Maintenance Tickets', value: myTickets, trend: 'Active support tickets', icon: '🔧' },
+      { label: 'Branding Status', value: compliance, trend: 'Club compliance level', icon: '🛡️', customColor: compliance === 'Compliant' ? 'var(--success-green)' : 'var(--warning)' },
+      { label: 'My Appointments', value: myApts, trend: 'Scheduled with Council', icon: '📅' }
+    ];
+  } else if (role === 'district-tech') {
+    const assignedReqs = requests.filter(r => r.assignedDev === user.name || r.assignedTo === user.name).length;
+    const openTickets = tickets.filter(t => t.status !== 'Closed' && t.status !== 'Resolved').length;
+    const pendingQA = requests.filter(r => r.status === 'Internal Testing').length;
+    const closedTickets = tickets.filter(t => t.status === 'Closed' || t.status === 'Resolved').length;
+    
+    stats = [
+      { label: 'Assigned Websites', value: assignedReqs, trend: 'In design & development', icon: '💻' },
+      { label: 'Open Support Tickets', value: openTickets, trend: 'Awaiting tech resolution', icon: '🔧' },
+      { label: 'Pending QA Reviews', value: pendingQA, trend: 'Internal testing validation', icon: '🔬' },
+      { label: 'Completed Tickets', value: closedTickets, trend: 'Lifetime tickets resolved', icon: '✅' }
+    ];
+  } else if (role === 'district-pr') {
+    const pendingReviews = requests.filter(r => r.status === 'PR and Branding Review').length;
+    const activeViolations = complianceCases.filter(c => c.status !== 'Closed').length;
+    const resourcesCount = state.getData("resources").length;
+    const closedCases = complianceCases.filter(c => c.status === 'Closed').length;
+    
+    stats = [
+      { label: 'PR Reviews Pending', value: pendingReviews, trend: 'Website branding checks', icon: '🎨' },
+      { label: 'Active CoC Violations', value: activeViolations, trend: 'Compliance cases in progress', icon: '⚠️' },
+      { label: 'Branding Resources', value: resourcesCount, trend: 'Assets in visual library', icon: '📁' },
+      { label: 'Resolved Cases', value: closedCases, trend: 'Compliance issues closed', icon: '✅' }
+    ];
+  } else {
+    // Default fallback
+    stats = [
+      { label: 'Active Requests', value: requests.length, trend: 'Total requests in system', icon: '🌐' },
+      { label: 'Support Tickets', value: tickets.length, trend: 'Total maintenance tickets', icon: '🔧' },
+      { label: 'Compliance Cases', value: complianceCases.length, trend: 'Branding audit cases', icon: '🛡️' },
+      { label: 'District Calendar', value: appointments.length, trend: 'Total booked appointments', icon: '📅' }
+    ];
   }
 
-  // Draw tasks list
-  let html = "";
+  // Draw Dashboard UI
+  let html = '';
+
+  // 1. Stats Grid HTML
+  html += `<div class="stats-grid">`;
+  stats.forEach(s => {
+    const valColor = s.customColor ? `style="color:${s.customColor}"` : '';
+    html += `
+      <div class="card stat-card">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div>
+            <div class="stat-label">${s.label}</div>
+            <div class="stat-value" ${valColor}>${s.value}</div>
+          </div>
+          <span style="font-size:1.4rem; padding:6px; background:rgba(123, 69, 240, 0.08); border-radius:8px;">${s.icon}</span>
+        </div>
+        <div class="stat-trend" style="color:var(--slate-blue); opacity:0.6; font-size:0.68rem; margin-top:4px;">${s.trend}</div>
+      </div>
+    `;
+  });
+  html += `</div>`;
+
+  // 2. Emergency Banner (If club president has an unacknowledged emergency notice)
+  let userEmergencies = [];
+  if (role === 'club-president') {
+    userEmergencies = emergencies.filter(e => !e.acknowledged && (e.club === user.club || e.clubName === user.club));
+  } else if (role === 'super-admin' || role === 'district-pr') {
+    userEmergencies = emergencies.filter(e => !e.acknowledged);
+  }
   
-  // Card 1: Dynamic Meeting review for REQ-1001
-  const req1 = requests[0];
-  if (req1 && (currentDashboardFilter === 'all' || currentDashboardFilter === 'Progress')) {
+  if (userEmergencies.length > 0) {
+    const em = userEmergencies[0];
     html += `
-      <div class="task-card-item" onclick="switchView('websites')">
-        <div class="task-card-header">
-          <div class="task-card-status">
-            <span class="dot-blue"></span>
-            <span>TODAY</span>
-          </div>
-          <div class="task-card-actions">
-            <span style="font-size:0.75rem; color:var(--slate-blue); opacity:0.6; margin-right:4px;">${req1.id}</span>
-            <span>📎</span>
-            <span>•••</span>
-          </div>
+      <div class="emergency-banner" onclick="switchView('governance')">
+        <div class="emergency-banner-icon">🚨</div>
+        <div class="emergency-banner-content">
+          <div class="emergency-banner-title">EMERGENCY DIRECTIVE: ${sanitizeHTML(em.headline)}</div>
+          <div class="emergency-banner-desc">Dispatched by District PR: <strong>${sanitizeHTML(em.instruction)}</strong>. Action and evidence submission required.</div>
         </div>
-        <div class="task-card-title">Staging site review: ${req1.clubName}</div>
-        <div class="task-card-desc">Review preferred domain <strong>${req1.preferredDomain}</strong> and complete checklist QA check validations. Target handover: ${req1.targetDate}.</div>
-        <div class="task-card-footer">
-          <div class="task-card-time">
-            <span>⏰ 08:00 AM - 10:00 AM</span>
-          </div>
-          <div class="task-card-members">
-            <div class="members-avatars">
-              <div class="members-avatar-circle" style="background:#7B45F0;">D</div>
-              <div class="members-avatar-circle" style="background:#D0BCFC;">N</div>
-              <div class="members-avatar-circle" style="background:#6631DB;">S</div>
+        <div class="emergency-banner-action">
+          <button class="btn btn-danger btn-sm" style="background:#dc2626; border-radius:8px;">View Notice</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // 3. My Attention Section
+  const attentionItems = state.getAttentionItems() || [];
+  html += `
+    <div class="section-header" style="margin-top: 10px;">
+      <div>
+        <h2 class="section-title">My Attention</h2>
+        <p class="section-subtitle">Processes requiring your immediate review or action.</p>
+      </div>
+    </div>
+  `;
+
+  if (attentionItems.length === 0) {
+    html += `
+      <div class="card" style="padding: 24px; text-align: center; color: var(--slate-blue); font-size: 0.82rem;">
+        🟢 No pending items require your immediate attention right now.
+      </div>
+    `;
+  } else {
+    html += `<div class="attention-grid">`;
+    attentionItems.forEach(item => {
+      let badgeCls = 'badge-draft';
+      if (item.priority === 'Emergency') badgeCls = 'badge-rejected';
+      else if (item.priority === 'High') badgeCls = 'badge-warning';
+      else badgeCls = 'badge-progress';
+      
+      html += `
+        <div class="attention-card ${item.priority.toLowerCase()}" onclick="switchView('${item.module}')">
+          <div class="attention-card-icon" style="background:rgba(123, 69, 240, 0.08);">${item.icon}</div>
+          <div class="attention-card-body">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <span class="badge ${badgeCls}" style="font-size:0.6rem; padding:2px 6px;">${item.priority}</span>
+              <span style="font-size:0.68rem; color:var(--slate-blue); opacity:0.5; font-family:monospace;">${item.ref}</span>
             </div>
-            <span class="members-count">+3 People</span>
+            <div class="attention-card-title">${sanitizeHTML(item.title)}</div>
+            <div class="attention-card-meta">${sanitizeHTML(item.action)}</div>
+            <div class="attention-card-action">Go to task →</div>
           </div>
         </div>
-      </div>
-    `;
+      `;
+    });
+    html += `</div>`;
   }
 
-  // Card 2: Expanded Blue Card: Main Design System/Compliance goal
-  if (currentDashboardFilter === 'all') {
+  // 4. Live Process Overview Section
+  let processOverview = state.getProcessOverview() || [];
+  
+  // Filter based on selected dashboard tab
+  if (currentDashboardFilter === 'Progress') {
+    processOverview = processOverview.filter(p => !['Published', 'Closed', 'Resolved', 'Draft'].includes(p.status));
+  } else if (currentDashboardFilter === 'Published') {
+    processOverview = processOverview.filter(p => p.status === 'Published');
+  }
+
+  html += `
+    <div class="section-header" style="margin-top: 24px;">
+      <div>
+        <h2 class="section-title">Live Process Feed</h2>
+        <p class="section-subtitle">Real-time tracking of active website, maintenance, and compliance workflows.</p>
+      </div>
+    </div>
+  `;
+
+  if (processOverview.length === 0) {
     html += `
-      <div class="task-card-item expanded" onclick="switchView('governance')">
-        <div class="task-card-header">
-          <div class="task-card-status">
-            <span class="dot-blue" style="background:#FFF;"></span>
-            <span style="color:#FFF;">ACTIVE STANDARD</span>
-          </div>
-          <div class="task-card-actions" style="color:#FFF;">
-            <span>📁</span>
-            <span>🔔</span>
-            <span>•••</span>
-          </div>
-        </div>
-        <div class="task-card-title">Implement Official Brand Guidelines</div>
-        <div class="task-card-desc">Verify that all club websites align with official corporate logo safety space bounds and typography guidelines. Passed training modules enable direct server deployment.</div>
-        
-        <div class="task-card-tags">
-          <span class="task-tag" style="color:#FFF; background:rgba(255,255,255,0.1);">Design team</span>
-          <span class="task-tag" style="color:#FFF; background:rgba(255,255,255,0.1);">PR compliance</span>
-          <span class="task-tag" style="color:#FFF; background:rgba(255,255,255,0.1);">Technical team</span>
-        </div>
-        
-        <div class="task-card-progress-row">
-          <span>Progress :</span>
-          <div class="task-progress-bar">
-            <div class="task-progress-fill" style="width: ${compliancePercent}%;"></div>
-          </div>
-          <span style="font-weight:700; color:#FFF;">%${compliancePercent}</span>
-        </div>
+      <div class="card" style="padding: 32px; text-align: center; color: var(--slate-blue); font-size: 0.82rem;">
+        No active workflows matching the selected filter.
       </div>
     `;
-  }
-
-  // Card 3: Dynamic Compliance or Mediation card
-  const activeCase = complianceCases[0];
-  if (activeCase && (currentDashboardFilter === 'all' || currentDashboardFilter === 'Progress')) {
-    html += `
-      <div class="task-card-item" onclick="switchView('governance')">
-        <div class="task-card-header">
-          <div class="task-card-status">
-            <span class="dot-blue" style="background:#EF4444;"></span>
-            <span style="color:var(--danger)">URGENT AUDIT</span>
+  } else {
+    html += `<div class="process-overview-grid">`;
+    processOverview.forEach(p => {
+      html += `
+        <div class="process-overview-card" onclick="switchView('${p.module}')">
+          <div class="process-card-header">
+            <span style="font-size:0.68rem; font-weight:700; color:var(--periwinkle); opacity:0.5;">${p.type}</span>
+            ${getStatusBadge(p.status)}
           </div>
-          <div class="task-card-actions">
-            <span style="font-size:0.75rem; color:var(--slate-blue); opacity:0.6; margin-right:4px;">${activeCase.id}</span>
-            <span>🔔</span>
-            <span>•••</span>
+          <div class="process-card-title" style="margin-bottom:6px; font-weight:700;">${sanitizeHTML(p.title)}</div>
+          <div class="process-card-activity" style="font-size:0.72rem; color:var(--slate-blue); line-height:1.4; margin-bottom:12px;">
+            Next: <span style="color:var(--periwinkle); font-weight:500;">${sanitizeHTML(p.nextAction)}</span>
           </div>
-        </div>
-        <div class="task-card-title">Resolve branding warning: ${activeCase.clubName}</div>
-        <div class="task-card-desc">Audit violation regarding <strong>${activeCase.category}</strong>. Instructed correction: <em>${activeCase.steps}</em>. Deadline: ${activeCase.deadline}.</div>
-        <div class="task-card-footer">
-          <div class="task-card-time">
-            <span>⏰ 11:00 AM - 02:00 PM</span>
-          </div>
-          <div class="task-card-members">
-            <div class="members-avatars">
-              <div class="members-avatar-circle" style="background:#7B45F0;">S</div>
-              <div class="members-avatar-circle" style="background:#D0BCFC;">D</div>
-            </div>
-            <span class="members-count">+2 People</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.65rem; color:var(--slate-blue); opacity:0.6;">
+            <span>Ref: ${p.id}</span>
+            <span>Active ${formatRelativeTime(p.lastActivity)}</span>
           </div>
         </div>
-      </div>
-    `;
-  }
-
-  // Fallback if list is empty
-  if (html === "") {
-    html = `<div class="card" style="text-align:center; padding:40px; color:var(--slate-blue);">No matching service requests found.</div>`;
+      `;
+    });
+    html += `</div>`;
   }
 
   container.innerHTML = html;
@@ -211,10 +294,15 @@ function renderDashboard() {
   if (sidebarTime) sidebarTime.textContent = "Just now";
 
   // Update Resolved Support Tickets count
-  const resolvedTicketsCount = state.getData("maintenanceTickets").filter(x => x.status === "Completed" || x.status === "Closed").length;
+  const resolvedTicketsCount = tickets.filter(x => x.status === "Completed" || x.status === "Closed" || x.status === "Resolved").length;
   const sidebarActivityText = document.getElementById("sidebar-activity-stat-text");
   if (sidebarActivityText) {
     sidebarActivityText.textContent = `${resolvedTicketsCount} Tickets Completed`;
+  }
+  
+  // Trigger Header notification count badge update
+  if (window.updateNotificationBadge) {
+    window.updateNotificationBadge();
   }
 }
 
@@ -320,8 +408,8 @@ function renderWebsiteRequests() {
   if (actionBtnsContainer) {
     if (r === "club-president") {
       actionBtnsContainer.innerHTML = `
-        <button class="btn btn-primary" onclick="openWebsiteRequestModal('Club Website')">Request Club Website</button>
-        <button class="btn btn-secondary" onclick="openWebsiteRequestModal('Project Website')">Request Project Website</button>
+        <button class="btn btn-primary" onclick="openWebsiteRequestWizard()">Request Club Website</button>
+        <button class="btn btn-secondary" onclick="openWebsiteRequestWizard()">Request Project Website</button>
       `;
     } else {
       actionBtnsContainer.innerHTML = "";
@@ -386,7 +474,7 @@ function renderMaintenanceAndTraining() {
   const btnContainer = document.getElementById("maintenance-request-btns");
   if (btnContainer) {
     if (r === "club-president") {
-      btnContainer.innerHTML = `<button class="btn btn-primary" onclick="document.getElementById('new-maintenance-dialog').showModal()">Submit Maintenance Ticket</button>`;
+      btnContainer.innerHTML = `<button class="btn btn-primary" onclick="openMaintenanceWizard()">Submit Maintenance Ticket</button>`;
     } else {
       btnContainer.innerHTML = "";
     }
@@ -564,7 +652,7 @@ function renderGovernanceAndBranding() {
         <button class="btn btn-danger" onclick="document.getElementById('new-emergency-dialog').showModal()">Dispatch Emergency Notice</button>
       `;
     } else if (r === "club-president") {
-      btns.innerHTML = `<button class="btn btn-primary" onclick="document.getElementById('new-pr-review-dialog').showModal()">Submit PR Pre-Review</button>`;
+      btns.innerHTML = `<button class="btn btn-primary" onclick="openPRReviewWizard()">Submit PR Pre-Review</button>`;
     } else {
       btns.innerHTML = "";
     }
