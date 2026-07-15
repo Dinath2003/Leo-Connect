@@ -61,23 +61,19 @@
   font-size: 0.8rem;
   padding: 8px 20px;
   border-radius: 20px;
-  box-shadow: 0 4px 15px rgba(123, 69, 240, 0.4);
   cursor: pointer;
   transition: var(--transition);
   border: none;
 }
 
 .new-task-btn:hover {
-  background: #0044DD;
-  box-shadow: 0 4px 20px rgba(123, 69, 240, 0.5);
+  background: #6631DB;
 }
 
 /* Task Cards */
 .task-card-item {
-  background: rgba(19, 13, 38, 0.45);
-  border: 1px solid rgba(123, 69, 240, 0.15);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 16px;
   padding: 20px;
   margin-bottom: 16px;
@@ -86,17 +82,13 @@
 }
 
 .task-card-item:hover {
-  border-color: rgba(123, 69, 240, 0.45);
-  box-shadow: 0 8px 30px rgba(123, 69, 240, 0.15);
-  transform: translateY(-2px);
+  border-color: rgba(138, 126, 190, 0.2);
+  transform: translateY(-1px);
 }
 
 .task-card-item.expanded {
-  background: linear-gradient(135deg, rgba(73, 26, 177, 0.4) 0%, rgba(16, 6, 45, 0.7) 100%);
-  border: 1px solid rgba(123, 69, 240, 0.5);
-  box-shadow: 0 10px 30px rgba(123, 69, 240, 0.25);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: #1B1333;
+  border: 1px solid rgba(138, 126, 190, 0.3);
 }
 
 .task-card-header {
@@ -519,7 +511,7 @@
   height: 14px;
   border-radius: 50%;
   background: var(--hyper-magenta);
-  box-shadow: 0 0 20px var(--hyper-magenta), 0 0 40px var(--hyper-magenta);
+  box-shadow: 0 0 6px var(--hyper-magenta);
   position: relative;
   animation: pulseGlow 2.5s infinite;
 }

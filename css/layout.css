@@ -260,7 +260,7 @@ header {
 }
 
 .role-hud {
-  display: flex;
+  display: none !important;
   align-items: center;
   background: #191326;
   border: 1px solid var(--glass-border);
