@@ -1,46 +1,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Brand Colors from Purple Theme Palette */
-  --periwinkle: #D0BCFC; /* Very Light Lavender */
-  --hyper-magenta: #7B45F0; /* Vibrant Purple Accent */
-  --ultrasonic-blue: #6631DB; /* Medium Violet-Purple */
-  --velvet-purple: #491AB1; /* Dark Violet/Purple */
-  --black: #0B071A; /* Deep Purple-Black Abyss */
-  --card-bg: #130D26; /* Dark Navy-Purple Card Background */
-  --sidebar-bg: #070410; /* Deeper Sidebar Purple-Black */
-  --slate-blue: #8A7EBE; /* Muted Lavender-Slate Text */
+  /* Brand Colors from Clean Light Theme Palette (Mint Green / Teal Accent) */
+  --periwinkle: #6B7280; /* Grey metadata text, e.g. slate-500 */
+  --hyper-magenta: #00A88F; /* Vibrant Teal/Mint Accent (matches TeamHub primary) */
+  --ultrasonic-blue: #10B981; /* Mint green secondary accent */
+  --velvet-purple: #1F2937; /* Slate-800 for dark text/elements */
+  
+  --black: #F4F6F8; /* Clean Light Grey Background */
+  --card-bg: #FFFFFF; /* Pure White Card Background */
+  --sidebar-bg: #FFFFFF; /* Pure White Sidebar Background */
+  --slate-blue: #4B5563; /* Muted slate grey text */
   
   /* Additional Functional Colors */
-  --white: #FFFFFF;
-  --glass-border: rgba(123, 69, 240, 0.1);
-  --glass-glow: rgba(123, 69, 240, 0.12);
+  --white: #FFFFFF; /* Pure white for elements that must be white */
+  --text-primary: #1F2937; /* Main body text (Dark Charcoal/Black) */
+  --text-secondary: #4B5563; /* Secondary body text (Medium Slate Grey) */
+  --glass-border: #E5E7EB; /* Clean light grey borders */
+  --glass-glow: rgba(0, 168, 143, 0.04); /* Faint teal tint */
   
-  --success: #7B45F0; /* Vibrant Purple Active State */
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --info: #3b82f6;
+  --success: #00A88F; /* Teal active state */
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --info: #3B82F6;
   
   /* Semantic Status Colors */
-  --success-green: #10b981;
-  --success-green-bg: rgba(16, 185, 129, 0.12);
-  --warning-bg: rgba(245, 158, 11, 0.12);
-  --danger-bg: rgba(239, 68, 68, 0.12);
-  --info-bg: rgba(59, 130, 246, 0.12);
-  --emergency: #dc2626;
-  --emergency-bg: rgba(220, 38, 38, 0.12);
+  --success-green: #10B981;
+  --success-green-bg: rgba(16, 185, 129, 0.08);
+  --warning-bg: rgba(245, 158, 11, 0.08);
+  --danger-bg: rgba(239, 68, 68, 0.08);
+  --info-bg: rgba(59, 130, 246, 0.08);
+  --emergency: #EF4444;
+  --emergency-bg: rgba(239, 68, 68, 0.08);
   
   /* Process Status Colors */
-  --status-draft: #94a3b8;
-  --status-submitted: #8b5cf6;
-  --status-review: #3b82f6;
-  --status-progress: #6366f1;
-  --status-approved: #10b981;
+  --status-draft: #94A3B8;
+  --status-submitted: #8B5CF6;
+  --status-review: #3B82F6;
+  --status-progress: #00A88F;
+  --status-approved: #10B981;
   --status-completed: #059669;
-  --status-emergency: #dc2626;
+  --status-emergency: #EF4444;
   
   /* Focus Ring */
-  --focus-ring: 0 0 0 2px var(--black), 0 0 0 4px var(--hyper-magenta);
+  --focus-ring: 0 0 0 2px #FFFFFF, 0 0 0 4px var(--hyper-magenta);
   
   /* Layout Sizing */
   --left-sidebar-width: 260px;
@@ -49,10 +52,10 @@
   
   /* Fonts */
   --font-main: 'Plus Jakarta Sans', sans-serif;
-  --font-display: 'Space Grotesk', 'Outfit', sans-serif;
+  --font-display: 'Outfit', sans-serif;
   
   /* Transitions */
-  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: all 0.2s ease-in-out;
 }
 
 /* Reset and Core Styles */
@@ -66,7 +69,7 @@
 body {
   font-family: var(--font-main);
   background-color: var(--black);
-  color: var(--white);
+  color: var(--text-primary);
   overflow-x: hidden;
   min-height: 100vh;
 }
@@ -82,7 +85,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(227, 217, 252, 0.1);
+  background: rgba(0, 0, 0, 0.08);
   border-radius: 3px;
 }
 

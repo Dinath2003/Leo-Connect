@@ -783,9 +783,9 @@ function renderWorkspaceApprovalsTab(type, rec) {
   
   steps.forEach(step => {
     const isApp = step.status === 'Approved';
-    const dotColor = isApp ? 'var(--success-green)' : 'rgba(255,255,255,0.08)';
-    const dotBorder = isApp ? 'var(--success-green)' : 'rgba(255,255,255,0.15)';
-    const textColor = isApp ? 'var(--white)' : 'var(--slate-blue)';
+    const dotColor = isApp ? 'var(--success-green)' : 'var(--black)';
+    const dotBorder = isApp ? 'var(--success-green)' : 'var(--glass-border)';
+    const textColor = isApp ? 'var(--text-primary)' : 'var(--slate-blue)';
     
     html += `
       <div style="display:flex; gap:16px; align-items:flex-start; position:relative;">
@@ -817,9 +817,9 @@ function renderWorkspaceHistoryTab(rec) {
     html += `<div style="display:flex; flex-direction:column; gap:12px;">`;
     history.forEach(log => {
       html += `
-        <div style="padding:12px; background:rgba(19, 13, 38, 0.45); border:1px solid var(--glass-border); border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
+        <div style="padding:12px; background:var(--black); border:1px solid var(--glass-border); border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
           <div>
-            <div style="font-size:0.82rem; font-weight:600; color:var(--white);">${sanitizeHTML(log.stage)}</div>
+            <div style="font-size:0.82rem; font-weight:600; color:var(--text-primary);">${sanitizeHTML(log.stage)}</div>
             <div style="font-size:0.72rem; color:var(--slate-blue); margin-top:3px;">${sanitizeHTML(log.notes || 'Status changed')}</div>
           </div>
           <div style="text-align:right; font-size:0.68rem; color:var(--slate-blue); opacity:0.6;">
